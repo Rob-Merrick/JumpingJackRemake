@@ -714,7 +714,7 @@ MonoBehaviour:
   m_text: SC00000
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 933ad2abccb263d4db53cc4aea21fdba, type: 2}
-  m_sharedMaterial: {fileID: 9146455947448332724, guid: 933ad2abccb263d4db53cc4aea21fdba, type: 2}
+  m_sharedMaterial: {fileID: -4858353767576077139, guid: 933ad2abccb263d4db53cc4aea21fdba, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1066,7 +1066,7 @@ MonoBehaviour:
   m_text: HI00000
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 933ad2abccb263d4db53cc4aea21fdba, type: 2}
-  m_sharedMaterial: {fileID: 9146455947448332724, guid: 933ad2abccb263d4db53cc4aea21fdba, type: 2}
+  m_sharedMaterial: {fileID: -4858353767576077139, guid: 933ad2abccb263d4db53cc4aea21fdba, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1302,7 +1302,7 @@ MonoBehaviour:
   m_text: '######'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 933ad2abccb263d4db53cc4aea21fdba, type: 2}
-  m_sharedMaterial: {fileID: 9146455947448332724, guid: 933ad2abccb263d4db53cc4aea21fdba, type: 2}
+  m_sharedMaterial: {fileID: -4858353767576077139, guid: 933ad2abccb263d4db53cc4aea21fdba, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1499,6 +1499,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1894231743}
   - component: {fileID: 1894231742}
+  - component: {fileID: 1894231741}
   m_Layer: 0
   m_Name: Lenny
   m_TagString: Untagged
@@ -1506,6 +1507,25 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!95 &1894231741
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1894231740}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 7b86b1e8a02205640985f31eba95680b, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!212 &1894231742
 SpriteRenderer:
   m_ObjectHideFlags: 0
