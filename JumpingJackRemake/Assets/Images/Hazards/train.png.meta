@@ -1,19 +1,19 @@
 fileFormatVersion: 2
-guid: 1aca6f810e2b7234085f7af567b91464
+guid: 4d31919cb6a83fb4082d4d4113d0aca6
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 7934916605079650214
-    second: lennyIdle_0
+      213: 7114885465217784225
+    second: train_0
   - first:
-      213: -1180443315152003029
-    second: lennyIdle_1
+      213: 2278024540556303145
+    second: train_1
   - first:
-      213: -4168844157600239832
-    second: lennyIdle_2
+      213: 5927172392006502722
+    second: train_2
   - first:
-      213: -7004856430192351716
-    second: lennyIdle_3
+      213: 4051887498834942693
+    second: train_3
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -139,13 +139,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: lennyIdle_0
+      name: train_0
       rect:
         serializedVersion: 2
-        x: 9
-        y: 0
-        width: 15
-        height: 21
+        x: 4
+        y: 7
+        width: 19
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -153,20 +153,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6affe108c9c7e1e60800000000000000
-      internalID: 7934916605079650214
+      spriteID: 1a955e362a62db260800000000000000
+      internalID: 7114885465217784225
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: lennyIdle_1
+      name: train_1
       rect:
         serializedVersion: 2
-        x: 42
-        y: 0
-        width: 14
-        height: 21
+        x: 36
+        y: 7
+        width: 19
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -174,20 +174,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b2061e22f093e9fe0800000000000000
-      internalID: -1180443315152003029
+      spriteID: 92b1b79004b2d9f10800000000000000
+      internalID: 2278024540556303145
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: lennyIdle_2
+      name: train_2
       rect:
         serializedVersion: 2
-        x: 73
-        y: 0
-        width: 15
-        height: 21
+        x: 68
+        y: 7
+        width: 19
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -195,20 +195,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 82f664e735a4526c0800000000000000
-      internalID: -4168844157600239832
+      spriteID: 249cc0413eb814250800000000000000
+      internalID: 5927172392006502722
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: lennyIdle_3
+      name: train_3
       rect:
         serializedVersion: 2
-        x: 105
-        y: 0
-        width: 14
-        height: 21
+        x: 100
+        y: 7
+        width: 19
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -216,8 +216,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c1626c7a030c9ce90800000000000000
-      internalID: -7004856430192351716
+      spriteID: 5ea17ed56323b3830800000000000000
+      internalID: 4051887498834942693
       vertices: []
       indices: 
       edges: []
@@ -225,7 +225,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 755a91c2306253b4d901eda7a5dc0bbc
+    spriteID: 0d9fa3e47e159c04bb1cee55ca25ad46
     internalID: 0
     vertices: []
     indices: 

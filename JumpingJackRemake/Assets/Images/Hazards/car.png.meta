@@ -1,19 +1,19 @@
 fileFormatVersion: 2
-guid: 524192b4e5a07da4e83b7f07e738f96b
+guid: 6362a898e9367d34ab7b05d974eb6b32
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -4204762903808925249
-    second: lennyrunning_0
+      213: -8030835215644163416
+    second: car_0
   - first:
-      213: -6657529324842432509
-    second: lennyrunning_1
+      213: 6656177661250876350
+    second: car_1
   - first:
-      213: 3199837165481553029
-    second: lennyrunning_2
+      213: -6623931398525493558
+    second: car_2
   - first:
-      213: -7071520911758179935
-    second: lennyrunning_3
+      213: 5390159895719797930
+    second: car_3
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -139,13 +139,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: lennyrunning_0
+      name: car_0
       rect:
         serializedVersion: 2
-        x: 9
+        x: 10
         y: 6
-        width: 15
-        height: 21
+        width: 18
+        height: 14
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -153,20 +153,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: fb1aab1ba6ea5a5c0800000000000000
-      internalID: -4204762903808925249
+      spriteID: 8a205d9abedbc8090800000000000000
+      internalID: -8030835215644163416
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: lennyrunning_1
+      name: car_1
       rect:
         serializedVersion: 2
-        x: 40
+        x: 42
         y: 6
-        width: 16
-        height: 21
+        width: 18
+        height: 13
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -174,20 +174,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 30845072a54bb93a0800000000000000
-      internalID: -6657529324842432509
+      spriteID: eb3bfb4215e7f5c50800000000000000
+      internalID: 6656177661250876350
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: lennyrunning_2
+      name: car_2
       rect:
         serializedVersion: 2
-        x: 73
+        x: 74
         y: 6
-        width: 13
-        height: 21
+        width: 18
+        height: 12
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -195,20 +195,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 58cee93d2fa186c20800000000000000
-      internalID: 3199837165481553029
+      spriteID: aced456fc711314a0800000000000000
+      internalID: -6623931398525493558
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: lennyrunning_3
+      name: car_3
       rect:
         serializedVersion: 2
-        x: 105
+        x: 106
         y: 6
-        width: 13
-        height: 21
+        width: 18
+        height: 13
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -216,8 +216,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1a148e08239ecdd90800000000000000
-      internalID: -7071520911758179935
+      spriteID: aa46feaedd1bdca40800000000000000
+      internalID: 5390159895719797930
       vertices: []
       indices: 
       edges: []
@@ -225,7 +225,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 6ff2044481db01a408671bd163a85ba1
+    spriteID: 4c41edc0fd006794cbf0819b962892ae
     internalID: 0
     vertices: []
     indices: 
