@@ -422,6 +422,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _lenny: {fileID: 1894231740}
+  _lennySpeedDifference: 10
 --- !u!4 &411404069
 Transform:
   m_ObjectHideFlags: 0
@@ -605,6 +606,14 @@ PrefabInstance:
     - target: {fileID: 3285925110622384865, guid: fc4db121600fbd240851822816417d38, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3285925110622384866, guid: fc4db121600fbd240851822816417d38, type: 3}
+      propertyPath: m_Size.x
+      value: 17
+      objectReference: {fileID: 0}
+    - target: {fileID: 3285925110622384866, guid: fc4db121600fbd240851822816417d38, type: 3}
+      propertyPath: m_Size.y
+      value: 17
       objectReference: {fileID: 0}
     - target: {fileID: 3285925110622384866, guid: fc4db121600fbd240851822816417d38, type: 3}
       propertyPath: m_Sprite
@@ -2513,7 +2522,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _horizontalBoundaryMode: 2
   _verticalBoundaryMode: 3
-  _horizontalArea: 3
+  _horizontalArea: 2
   _verticalArea: 3
   _leftEdgeOverride: -1
   _rightEdgeOverride: 1
@@ -2560,7 +2569,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 11, y: 16}
+    oldSize: {x: 12, y: 16}
     newSize: {x: 9, y: 16}
     adaptiveTilingThreshold: 0.5
     drawMode: 0

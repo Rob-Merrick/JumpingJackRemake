@@ -3,11 +3,14 @@ using UnityEngine;
 public class LennyManager : MonoBehaviour
 {
     [SerializeField] private GameObject _lenny;
+    [SerializeField] private float _lennySpeedDifference = 10.0F;
 
     private SpriteRenderer _spriteRenderer;
     private Animator _animator;
     private bool _isJumping = false;
     private bool _isJumpInitialized = false;
+
+    private float LennySpeed => GameSettingsManager.Instance.RunSpeed + _lennySpeedDifference;
 
     public static LennyManager Instance { get; private set; }
 
@@ -69,25 +72,25 @@ public class LennyManager : MonoBehaviour
             {
                 _animator.SetTrigger("Run");
                 _spriteRenderer.flipX = true;
-                _lenny.transform.Translate(Time.deltaTime * GameSettingsManager.Instance.RunSpeed * Vector3.right);
+                _lenny.transform.Translate(Time.deltaTime * LennySpeed * Vector3.right);
             }
             else if(isLeftArrowDown && !isRightArrowDown)
             {
                 _animator.SetTrigger("Run");
                 _spriteRenderer.flipX = false;
-                _lenny.transform.Translate(Time.deltaTime * GameSettingsManager.Instance.RunSpeed * Vector3.left);
+                _lenny.transform.Translate(Time.deltaTime * LennySpeed * Vector3.left);
             }
             else if(isUpArrowDown && !isDownArrowDown)
             {
                 _animator.SetTrigger("Run");
                 _spriteRenderer.flipX = false;
-                _lenny.transform.Translate(Time.deltaTime * GameSettingsManager.Instance.RunSpeed * Vector3.up);
+                _lenny.transform.Translate(Time.deltaTime * LennySpeed * Vector3.up);
             }
             else if(isDownArrowDown && !isUpArrowDown)
             {
                 _animator.SetTrigger("Run");
                 _spriteRenderer.flipX = false;
-                _lenny.transform.Translate(Time.deltaTime * GameSettingsManager.Instance.RunSpeed * Vector3.down);
+                _lenny.transform.Translate(Time.deltaTime * LennySpeed * Vector3.down);
             }
             else
             {
