@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Events;
 
 public enum BoundaryMode
 {
@@ -18,7 +19,17 @@ public class Boundary : MonoBehaviour
     [SerializeField] [HideInInspector] private float _rightEdgeOverride = 1.0F;
     [SerializeField] [HideInInspector] private float _bottomEdgeOverride = -1.0F;
     [SerializeField] [HideInInspector] private float _topEdgeOverride = 1.0F;
+    [SerializeField] [HideInInspector] private UnityEvent _leftEdgeCallback = null;
+    [SerializeField] [HideInInspector] private UnityEvent _rightEdgeCallback = null;
+    [SerializeField] [HideInInspector] private UnityEvent _bottomEdgeCallback = null;
+    [SerializeField] [HideInInspector] private UnityEvent _topEdgeCallback = null;
 
+    private float LeftEdgeValue => _horizontalArea.GetLeftEdgeValue(_leftEdgeOverride);
+    private float RightEdgeValue => _horizontalArea.GetRightEdgeValue(_rightEdgeOverride);
+    private float BottomEdgeValue => _verticalArea.GetBottomEdgeValue(_bottomEdgeOverride);
+    private float TopEdgeValue => _verticalArea.GetTopEdgeValue(_topEdgeOverride);
+    private float HorizontalDistanceValue => _horizontalArea.GetHorizontalDistanceValue(HorizontalDistanceOverride);
+    private float VerticalDistanceValue => _verticalArea.GetVerticalDistanceValue(VerticalDistanceOverride);
     private float HorizontalDistanceOverride => _rightEdgeOverride - _leftEdgeOverride;
     private float VerticalDistanceOverride => _topEdgeOverride - _bottomEdgeOverride;
 
@@ -40,8 +51,9 @@ public class Boundary : MonoBehaviour
             ProcessBoundary
             (
                 _horizontalBoundaryMode,
-                wrapAction: () => gameObject.transform.position += GetHorizontalDistanceValue() * Vector3.right,
-                clampAction: () => gameObject.transform.position = new Vector3(GetLeftEdgeValue(), gameObject.transform.position.y, gameObject.transform.position.z)
+                wrapAction: () => gameObject.transform.position += HorizontalDistanceValue * Vector3.right,
+                clampAction: () => gameObject.transform.position = new Vector3(LeftEdgeValue, gameObject.transform.position.y, gameObject.transform.position.z),
+                _leftEdgeCallback
             );
         }
         else if(gameObject.transform.position.x > _horizontalArea.GetRightEdgeValue(_rightEdgeOverride))
@@ -50,8 +62,9 @@ public class Boundary : MonoBehaviour
             ProcessBoundary
             (
                 _horizontalBoundaryMode,
-                wrapAction: () => gameObject.transform.position += GetHorizontalDistanceValue() * Vector3.left,
-                clampAction: () => gameObject.transform.position = new Vector3(GetRightEdgeValue(), gameObject.transform.position.y, gameObject.transform.position.z)
+                wrapAction: () => gameObject.transform.position += HorizontalDistanceValue * Vector3.left,
+                clampAction: () => gameObject.transform.position = new Vector3(RightEdgeValue, gameObject.transform.position.y, gameObject.transform.position.z),
+                _rightEdgeCallback
             );
         }
 
@@ -61,8 +74,9 @@ public class Boundary : MonoBehaviour
             ProcessBoundary
             (
                 _verticalBoundaryMode,
-                wrapAction: () => gameObject.transform.position += GetVerticalDistanceValue() * Vector3.up,
-                clampAction: () => gameObject.transform.position = new Vector3(gameObject.transform.position.x, GetBottomEdgeValue(), gameObject.transform.position.z)
+                wrapAction: () => gameObject.transform.position += VerticalDistanceValue * Vector3.up,
+                clampAction: () => gameObject.transform.position = new Vector3(gameObject.transform.position.x, BottomEdgeValue, gameObject.transform.position.z),
+                _bottomEdgeCallback
             );
         }
         else if(gameObject.transform.position.y > _verticalArea.GetTopEdgeValue(_topEdgeOverride))
@@ -71,50 +85,11 @@ public class Boundary : MonoBehaviour
             ProcessBoundary
             (
                 _verticalBoundaryMode,
-                wrapAction: () => gameObject.transform.position += GetVerticalDistanceValue() * Vector3.down,
-                clampAction: () => gameObject.transform.position = new Vector3(gameObject.transform.position.x, GetTopEdgeValue(), gameObject.transform.position.z)
+                wrapAction: () => gameObject.transform.position += VerticalDistanceValue * Vector3.down,
+                clampAction: () => gameObject.transform.position = new Vector3(gameObject.transform.position.x, TopEdgeValue, gameObject.transform.position.z),
+                _topEdgeCallback
             );
         }
-    }
-
-    public float GetLeftEdgeValue()
-    {
-        return _horizontalArea.GetLeftEdgeValue(_leftEdgeOverride);
-    }
-
-    public float GetRightEdgeValue()
-    {
-        return _horizontalArea.GetRightEdgeValue(_rightEdgeOverride);
-    }
-
-    public float GetBottomEdgeValue()
-    {
-        return _verticalArea.GetBottomEdgeValue(_bottomEdgeOverride);
-    }
-
-    public float GetTopEdgeValue()
-    {
-        return _verticalArea.GetTopEdgeValue(_topEdgeOverride);
-    }
-
-    public float GetHorizontalDistanceValue()
-    {
-        return _horizontalArea.GetHorizontalDistanceValue(HorizontalDistanceOverride);
-    }
-
-    public float GetVerticalDistanceValue()
-    {
-        return _verticalArea.GetVerticalDistanceValue(VerticalDistanceOverride);
-    }
-
-    public bool IsHorizontalOverrideValid()
-    {
-        return IsOverrideValid(_horizontalArea, _leftEdgeOverride, _rightEdgeOverride);
-    }
-
-    public bool IsVerticalOverrideValid()
-    {
-        return IsOverrideValid(_verticalArea, _bottomEdgeOverride, _topEdgeOverride);
     }
 
     public static bool IsOverrideValid(ScreenRegion screenRegion, float lowerEdge, float upperEdge)
@@ -122,7 +97,7 @@ public class Boundary : MonoBehaviour
         return screenRegion != ScreenRegion.Custom || upperEdge - lowerEdge > 0;
     }
 
-    private void ProcessBoundary(BoundaryMode boundaryMode, Action wrapAction, Action clampAction)
+    private void ProcessBoundary(BoundaryMode boundaryMode, Action wrapAction, Action clampAction, UnityEvent callback)
     {
         switch(boundaryMode)
         {
@@ -137,16 +112,21 @@ public class Boundary : MonoBehaviour
             default:
                 throw new NotImplementedException();
         }
+
+        if(callback != null)
+		{
+            callback.Invoke();
+		}
     }
 
     private void VerifyEdgeOverrides()
     {
-        if(!IsHorizontalOverrideValid())
+        if(!IsOverrideValid(_horizontalArea, _leftEdgeOverride, _rightEdgeOverride))
         {
             throw new Exception($"{nameof(_leftEdgeOverride)} must be less than {nameof(_rightEdgeOverride)} when overriding the edge values");
         }
 
-        if(!IsVerticalOverrideValid())
+        if(!IsOverrideValid(_verticalArea, _bottomEdgeOverride, _topEdgeOverride))
         {
             throw new Exception($"{nameof(_bottomEdgeOverride)} must be less than {nameof(_topEdgeOverride)} when overriding the edge values");
         }

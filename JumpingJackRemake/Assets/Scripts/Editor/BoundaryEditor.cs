@@ -15,6 +15,10 @@ public class BoundaryEditor : Editor
 		SerializedProperty rightEdgeOverrideProperty = serializedObject.FindProperty("_rightEdgeOverride");
 		SerializedProperty bottomEdgeOverrideProperty = serializedObject.FindProperty("_bottomEdgeOverride");
 		SerializedProperty topEdgeOverrideProperty = serializedObject.FindProperty("_topEdgeOverride");
+		SerializedProperty leftEdgeCallbackProperty = serializedObject.FindProperty("_leftEdgeCallback");
+		SerializedProperty rightEdgeCallbackProperty = serializedObject.FindProperty("_rightEdgeCallback");
+		SerializedProperty bottomEdgeCallbackProperty = serializedObject.FindProperty("_bottomEdgeCallback");
+		SerializedProperty topEdgeCallbackProperty = serializedObject.FindProperty("_topEdgeCallback");
 		EditorGUILayout.PropertyField(horizontalBoundaryModeProperty);
 		EditorGUILayout.PropertyField(verticalBoundaryModeProperty);
 		EditorGUILayout.PropertyField(horizontalWrapModeProperty);
@@ -35,6 +39,10 @@ public class BoundaryEditor : Editor
 			WarnOnBadInput(Boundary.IsOverrideValid(ScreenRegion.Custom, bottomEdgeOverrideProperty.floatValue, topEdgeOverrideProperty.floatValue), "The bottom edge must be less than the top edge");
 		}
 
+		EditorGUILayout.PropertyField(leftEdgeCallbackProperty);
+		EditorGUILayout.PropertyField(rightEdgeCallbackProperty);
+		EditorGUILayout.PropertyField(bottomEdgeCallbackProperty);
+		EditorGUILayout.PropertyField(topEdgeCallbackProperty);
 		serializedObject.ApplyModifiedProperties();
 	}
 

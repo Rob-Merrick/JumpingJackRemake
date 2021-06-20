@@ -1,19 +1,19 @@
 fileFormatVersion: 2
-guid: 04423a1604ca96448965f72123e993c8
+guid: ac0179f253b06f04a8f4adab04d5ee06
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -6049011054782416933
-    second: JumpingJackrunningSprite 1_0
+      213: 3560691633777436723
+    second: lennyjump_0
   - first:
-      213: 5160643922221618110
-    second: JumpingJackrunningSprite 1_1
+      213: 5647930782918547073
+    second: lennyjump_1
   - first:
-      213: 6688448916112373167
-    second: JumpingJackrunningSprite 1_2
+      213: -394766381986384510
+    second: lennyjump_2
   - first:
-      213: -2863370025643643816
-    second: JumpingJackrunningSprite 1_3
+      213: -3431093422359709266
+    second: lennyjump_3
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -58,7 +58,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 1
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -77,7 +77,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 4096
+    maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -89,7 +89,7 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Standalone
-    maxTextureSize: 4096
+    maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -101,7 +101,7 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: iPhone
-    maxTextureSize: 4096
+    maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -113,7 +113,7 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Android
-    maxTextureSize: 4096
+    maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -125,7 +125,7 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: WebGL
-    maxTextureSize: 4096
+    maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -139,85 +139,85 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: JumpingJackrunningSprite 1_0
+      name: lennyjump_0
       rect:
         serializedVersion: 2
-        x: 27
-        y: 18
-        width: 45
-        height: 63
-      alignment: 9
-      pivot: {x: 0.5, y: 0.5}
+        x: 9
+        y: 6
+        width: 15
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: bd77845ae789d0ca0800000000000000
-      internalID: -6049011054782416933
+      spriteID: 3386202fc2e1a6130800000000000000
+      internalID: 3560691633777436723
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: JumpingJackrunningSprite 1_1
+      name: lennyjump_1
       rect:
         serializedVersion: 2
-        x: 120
-        y: 18
-        width: 48
-        height: 63
-      alignment: 9
-      pivot: {x: 0.5, y: 0.5}
+        x: 42
+        y: 6
+        width: 13
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: eb35c441e4a4e9740800000000000000
-      internalID: 5160643922221618110
+      spriteID: 1869adf7f1b716e40800000000000000
+      internalID: 5647930782918547073
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: JumpingJackrunningSprite 1_2
+      name: lennyjump_2
       rect:
         serializedVersion: 2
-        x: 219
-        y: 18
-        width: 39
-        height: 63
-      alignment: 9
-      pivot: {x: 0.5, y: 0.5}
+        x: 73
+        y: 6
+        width: 15
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: fa5793f2ad422dc50800000000000000
-      internalID: 6688448916112373167
+      spriteID: 2857f603112858af0800000000000000
+      internalID: -394766381986384510
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: JumpingJackrunningSprite 1_3
+      name: lennyjump_3
       rect:
         serializedVersion: 2
-        x: 315
-        y: 18
-        width: 39
-        height: 63
-      alignment: 9
-      pivot: {x: 0.5, y: 0.5}
+        x: 107
+        y: 5
+        width: 11
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 85c6209e1244348d0800000000000000
-      internalID: -2863370025643643816
+      spriteID: ea9f11906be4260d0800000000000000
+      internalID: -3431093422359709266
       vertices: []
       indices: 
       edges: []
@@ -225,7 +225,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 8c8bf2a6f2fa9c44dba3ac26e7f22446
+    spriteID: d826e0cb217a01d4b8ed43cb8efdd676
     internalID: 0
     vertices: []
     indices: 

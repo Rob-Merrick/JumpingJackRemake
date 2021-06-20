@@ -27,7 +27,7 @@ public class ScreenManager : MonoBehaviour
 	public float PlayableAreaHorizontalDistance => _playableAreaRightEdge - _playableAreaLeftEdge;
 	public float PlayableAreaVerticalDistance => _playableAreaTopEdge - _playableAreaBottomEdge;
 
-	private void Start()
+	private void Awake()
 	{
 		if(Instance != null)
 		{
@@ -35,6 +35,10 @@ public class ScreenManager : MonoBehaviour
 		}
 
 		Instance = this;
+	}
+
+	private void Start()
+	{
 		VerifyEdges();
 	}
 

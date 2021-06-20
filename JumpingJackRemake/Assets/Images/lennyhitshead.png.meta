@@ -1,13 +1,13 @@
 fileFormatVersion: 2
-guid: def764f65c3cbb74aa505428cb11280c
+guid: cf44c09322f352644971a7e741bc8481
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -2142595565508828632
-    second: JumpingJackhitshead_0
+      213: -8952824388645586844
+    second: lennyhitshead_0
   - first:
-      213: -2029467945564283000
-    second: JumpingJackhitshead_1
+      213: 1335508388062469723
+    second: lennyhitshead_1
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -52,7 +52,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 1
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -71,7 +71,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 4096
+    maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -83,7 +83,7 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Standalone
-    maxTextureSize: 4096
+    maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -95,7 +95,7 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: iPhone
-    maxTextureSize: 4096
+    maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -107,7 +107,7 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Android
-    maxTextureSize: 4096
+    maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -119,7 +119,7 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: WebGL
-    maxTextureSize: 4096
+    maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -133,43 +133,43 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: JumpingJackhitshead_0
+      name: lennyhitshead_0
       rect:
         serializedVersion: 2
-        x: 27
-        y: 33
-        width: 45
-        height: 48
-      alignment: 9
-      pivot: {x: 0.5, y: 0.5}
+        x: 9
+        y: 11
+        width: 15
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 822e4846fa8f342e0800000000000000
-      internalID: -2142595565508828632
+      spriteID: 468735217ad21c380800000000000000
+      internalID: -8952824388645586844
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: JumpingJackhitshead_1
+      name: lennyhitshead_1
       rect:
         serializedVersion: 2
-        x: 111
-        y: 60
-        width: 54
-        height: 21
-      alignment: 9
-      pivot: {x: 0.5, y: 0.5}
+        x: 37
+        y: 20
+        width: 18
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 88f5995f7a1e5d3e0800000000000000
-      internalID: -2029467945564283000
+      spriteID: b5e94099dcda88210800000000000000
+      internalID: 1335508388062469723
       vertices: []
       indices: 
       edges: []
@@ -177,7 +177,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 6fb49924708acbd489bf163d5f7cb687
+    spriteID: 7c7f9eacd82f6d44f8d5c8c77b8c0457
     internalID: 0
     vertices: []
     indices: 
