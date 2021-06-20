@@ -136,9 +136,9 @@ TextureImporter:
       name: shotgun_0
       rect:
         serializedVersion: 2
-        x: 12
+        x: 5
         y: 0
-        width: 13
+        width: 20
         height: 18
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -157,9 +157,9 @@ TextureImporter:
       name: shotgun_1
       rect:
         serializedVersion: 2
-        x: 38
+        x: 37
         y: 0
-        width: 19
+        width: 20
         height: 18
       alignment: 0
       pivot: {x: 0.5, y: 0.5}

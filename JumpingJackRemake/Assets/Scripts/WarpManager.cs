@@ -1,19 +1,9 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 public class WarpManager : MonoBehaviour
 {
-    private static IDictionary<int, float> _floorPositions = new Dictionary<int, float>()
-	{
-        { 0, -2.84F },
-        { 1, -1.80F },
-        { 2, -0.77F },
-        { 3,  0.28F },
-        { 4,  1.30F },
-        { 5,  2.36F },
-        { 6,  3.39F },
-        { 7,  4.42F }
-    };
+    private int _floor0Position = -87;
+    private int _deltaFloorPosition = 24;
 
     public static WarpManager Instance { get; private set; }
     
@@ -27,10 +17,10 @@ public class WarpManager : MonoBehaviour
         Instance = this;
     }
 
-    public void PlaceObjectOnFloor(GameObject gameObject, int floorNumber, float floorPositionOffset)
+    public void PlaceObjectOnFloor(GameObject gameObject, int floorNumber, int floorPositionOffset)
 	{
         ValidateFloor(gameObject, floorNumber);
-        gameObject.transform.position = new Vector3(gameObject.transform.position.x, _floorPositions[floorNumber] + floorPositionOffset, gameObject.transform.position.z);
+        gameObject.transform.position = new Vector3(gameObject.transform.position.x, _floor0Position + floorNumber * _deltaFloorPosition + floorPositionOffset, gameObject.transform.position.z);
 	}
 
     private void ValidateFloor(GameObject gameObject, int floorNumber)

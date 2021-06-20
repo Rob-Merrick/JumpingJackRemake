@@ -2,30 +2,30 @@ using UnityEngine;
 
 public class ScreenManager : MonoBehaviour
 {
-	[SerializeField] private float _worldLeftEdge;
-	[SerializeField] private float _worldRightEdge;
-	[SerializeField] private float _worldBottomEdge;
-	[SerializeField] private float _worldTopEdge;
-	[SerializeField] private float _playableAreaLeftEdge;
-	[SerializeField] private float _playableAreaRightEdge;
-	[SerializeField] private float _playableAreaBottomEdge;
-	[SerializeField] private float _playableAreaTopEdge;
+	[SerializeField] private int _worldLeftEdge;
+	[SerializeField] private int _worldRightEdge;
+	[SerializeField] private int _worldBottomEdge;
+	[SerializeField] private int _worldTopEdge;
+	[SerializeField] private int _playableAreaLeftEdge;
+	[SerializeField] private int _playableAreaRightEdge;
+	[SerializeField] private int _playableAreaBottomEdge;
+	[SerializeField] private int _playableAreaTopEdge;
 
 	public static ScreenManager Instance;
 
-	public float WorldLeftEdge => _worldLeftEdge;
-	public float WorldRightEdge => _worldRightEdge;
-	public float WorldBottomEdge => _worldBottomEdge;
-	public float WorldTopEdge => _worldTopEdge;
-	public float WorldHorizontalDistance => _worldRightEdge - _worldLeftEdge;
-	public float WorldVerticalDistance => _worldTopEdge - _worldBottomEdge;
+	public int  WorldLeftEdge => _worldLeftEdge;
+	public int  WorldRightEdge => _worldRightEdge;
+	public int  WorldBottomEdge => _worldBottomEdge;
+	public int  WorldTopEdge => _worldTopEdge;
+	public int  WorldHorizontalDistance => _worldRightEdge - _worldLeftEdge;
+	public int  WorldVerticalDistance => _worldTopEdge - _worldBottomEdge;
 
-	public float PlayableAreaLeftEdge => _playableAreaLeftEdge;
-	public float PlayableAreaRightEdge => _playableAreaRightEdge;
-	public float PlayableAreaBottomEdge => _playableAreaBottomEdge;
-	public float PlayableAreaTopEdge => _playableAreaTopEdge;
-	public float PlayableAreaHorizontalDistance => _playableAreaRightEdge - _playableAreaLeftEdge;
-	public float PlayableAreaVerticalDistance => _playableAreaTopEdge - _playableAreaBottomEdge;
+	public int  PlayableAreaLeftEdge => _playableAreaLeftEdge;
+	public int  PlayableAreaRightEdge => _playableAreaRightEdge;
+	public int  PlayableAreaBottomEdge => _playableAreaBottomEdge;
+	public int  PlayableAreaTopEdge => _playableAreaTopEdge;
+	public int  PlayableAreaHorizontalDistance => _playableAreaRightEdge - _playableAreaLeftEdge;
+	public int  PlayableAreaVerticalDistance => _playableAreaTopEdge - _playableAreaBottomEdge;
 
 	private void Awake()
 	{

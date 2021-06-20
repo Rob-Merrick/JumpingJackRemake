@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class MoveAI : MonoBehaviour
 {
-	[SerializeField] private float _floorPositionOffset = 0.0F;
+	[SerializeField] private int _floorPositionOffset = 0;
 
 	private int _floorNumber;
 	private float _hiddenTime = 2.0F;
@@ -13,6 +13,7 @@ public class MoveAI : MonoBehaviour
 		_spriteRenderer = GetComponent<SpriteRenderer>();
 		_floorNumber = Random.Range(1, 8);
 		WarpManager.Instance.PlaceObjectOnFloor(gameObject, _floorNumber, _floorPositionOffset);
+		gameObject.transform.position += Random.Range(ScreenManager.Instance.PlayableAreaLeftEdge, ScreenManager.Instance.PlayableAreaRightEdge) * Vector3.right;
 	}
 
 	private void Update()

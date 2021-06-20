@@ -136,12 +136,12 @@ TextureImporter:
       name: snake_0
       rect:
         serializedVersion: 2
-        x: 3
+        x: 2
         y: 6
-        width: 25
+        width: 26
         height: 18
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -157,12 +157,12 @@ TextureImporter:
       name: snake_1
       rect:
         serializedVersion: 2
-        x: 38
+        x: 35
         y: 6
-        width: 23
+        width: 26
         height: 18
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
