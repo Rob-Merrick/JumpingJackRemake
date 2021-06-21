@@ -6,4 +6,9 @@ public class LennyAnimationEvents : MonoBehaviour
 	{
 		LennyManager.Instance.JumpInitialized = true;
 	}
+
+	public void FlashScreen()
+	{
+		ScreenManager.Instance.FlashScreen();
+	}
 }

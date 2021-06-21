@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class ScreenManager : MonoBehaviour
@@ -40,6 +41,34 @@ public class ScreenManager : MonoBehaviour
 	private void Start()
 	{
 		VerifyEdges();
+	}
+
+	public void FlashScreen()
+	{
+		StartCoroutine(FlashScreenCoroutine());
+	}
+
+	private IEnumerator FlashScreenCoroutine()
+	{
+		Color previousColor = Camera.main.backgroundColor;
+		Camera.main.backgroundColor = Color.white;
+
+		foreach(Hole hole in HoleManager.Instance.Holes)
+		{
+			hole.GetComponent<SpriteRenderer>().color = Color.white;
+		}
+
+		for(int i = 0; i < 2; i++)
+		{
+			yield return new WaitForSecondsRealtime(0.1F);
+		}
+
+		Camera.main.backgroundColor = previousColor;
+
+		foreach(Hole hole in HoleManager.Instance.Holes)
+		{
+			hole.GetComponent<SpriteRenderer>().color = previousColor;
+		}
 	}
 
 	private void VerifyEdges()
