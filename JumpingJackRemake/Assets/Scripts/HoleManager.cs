@@ -21,10 +21,15 @@ public class HoleManager : Manager<HoleManager>
 
 	public Hole[] Holes => _holes.ToArray();
 
-	private void Start()
+	public void Restart()
 	{
-		SpawnHole();
-		SpawnHole();
+		foreach(Hole hole in Holes)
+		{
+			Destroy(hole.gameObject);
+		}
+
+		_holes.Clear();
+		Initialize();
 	}
 
 	public void SpawnHole()
@@ -37,5 +42,11 @@ public class HoleManager : Manager<HoleManager>
 			hole.GetComponent<MoveAI>().MoveDirection = moveDirection;
 			_holes.Add(hole);
 		}
+	}
+
+	private void Initialize()
+	{
+		SpawnHole();
+		SpawnHole();
 	}
 }

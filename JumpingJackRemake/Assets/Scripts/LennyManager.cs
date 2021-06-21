@@ -11,6 +11,7 @@ public class LennyManager : Manager<LennyManager>
 
     private SpriteRenderer _spriteRenderer;
     private Animator _animator;
+    private Vector3 _startLocation;
 
     public bool JumpInitialized { get; set; } = false;
     public bool JumpIsGood { get; set; } = false;
@@ -24,12 +25,14 @@ public class LennyManager : Manager<LennyManager>
     public float FallSpeed => _fallSpeed;
     public float JumpSpeed => _jumpSpeed;
     public SpriteRenderer SpriteRenderer => _spriteRenderer;
+    public Animator Animator => _animator;
     public GameObject LennyGameObject => _lenny;
 
 	private void Start()
 	{
         _spriteRenderer = _lenny.GetComponent<SpriteRenderer>();
 		_animator = _lenny.GetComponent<Animator>();
+        _startLocation = _lenny.transform.position;
 	}
 
 #if UNITY_EDITOR
@@ -39,7 +42,17 @@ public class LennyManager : Manager<LennyManager>
     }
 #endif
 
-    public void AddActiveHole()
+	public void Restart()
+	{
+        JumpInitialized = false;
+        JumpIsGood = false;
+        HitHead = false;
+        ActiveHoles = 0;
+        FloorNumber = 0;
+        _lenny.transform.position = _startLocation;
+	}
+
+	public void AddActiveHole()
 	{
         ActiveHoles++;
 	}
@@ -47,6 +60,7 @@ public class LennyManager : Manager<LennyManager>
     public void RemoveActiveHole()
 	{
         ActiveHoles--;
+        ActiveHoles = Mathf.Max(ActiveHoles, 0);
 	}
 
     public bool IsGoingToFall()
@@ -65,8 +79,12 @@ public class LennyManager : Manager<LennyManager>
         JumpIsGood = true;
         JumpInitialized = false;
         ChangeFloors(isUp: true, isCheatButton: false);
-        HoleManager.Instance.SpawnHole();
-        ScoreManager.Instance.AddPoints(5);
+
+        if(GameManager.Instance.IsReady)
+		{
+            HoleManager.Instance.SpawnHole();
+            ScoreManager.Instance.AddPoints(5);
+		}
     }
 
     public void Stun()

@@ -1,0 +1,75 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &2373684294969727812
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 364456785762644912, guid: fc4db121600fbd240851822816417d38, type: 3}
+      propertyPath: _hazardType
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3285925110622384865, guid: fc4db121600fbd240851822816417d38, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3285925110622384865, guid: fc4db121600fbd240851822816417d38, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 66.48284
+      objectReference: {fileID: 0}
+    - target: {fileID: 3285925110622384865, guid: fc4db121600fbd240851822816417d38, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -13.431595
+      objectReference: {fileID: 0}
+    - target: {fileID: 3285925110622384865, guid: fc4db121600fbd240851822816417d38, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 134.26709
+      objectReference: {fileID: 0}
+    - target: {fileID: 3285925110622384865, guid: fc4db121600fbd240851822816417d38, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3285925110622384865, guid: fc4db121600fbd240851822816417d38, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3285925110622384865, guid: fc4db121600fbd240851822816417d38, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3285925110622384865, guid: fc4db121600fbd240851822816417d38, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3285925110622384865, guid: fc4db121600fbd240851822816417d38, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3285925110622384865, guid: fc4db121600fbd240851822816417d38, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3285925110622384865, guid: fc4db121600fbd240851822816417d38, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3285925110622384866, guid: fc4db121600fbd240851822816417d38, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -8688392260014441854, guid: af26e8b44916ae64d9bd06332b9a3600, type: 3}
+    - target: {fileID: 3285925110622384868, guid: fc4db121600fbd240851822816417d38, type: 3}
+      propertyPath: m_Name
+      value: Snake
+      objectReference: {fileID: 0}
+    - target: {fileID: 3285925110622384868, guid: fc4db121600fbd240851822816417d38, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3285925110622384879, guid: fc4db121600fbd240851822816417d38, type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.x
+      value: 26
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: fc4db121600fbd240851822816417d38, type: 3}

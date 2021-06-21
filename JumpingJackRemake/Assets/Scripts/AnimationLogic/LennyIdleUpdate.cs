@@ -12,6 +12,11 @@ public class LennyIdleUpdate : StateMachineBehaviour
 
 	public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 	{
+		if(!GameManager.Instance.IsReady)
+		{
+			return;
+		}
+
 		if(_lennyManager.IsGoingToFall())
 		{
 			animator.SetOnlyTrigger("Fall");
