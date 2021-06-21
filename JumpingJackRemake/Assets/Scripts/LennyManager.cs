@@ -66,6 +66,7 @@ public class LennyManager : Manager<LennyManager>
         JumpInitialized = false;
         ChangeFloors(isUp: true, isCheatButton: false);
         HoleManager.Instance.SpawnHole();
+        ScoreManager.Instance.AddPoints(5);
     }
 
     public void Stun()
@@ -78,16 +79,9 @@ public class LennyManager : Manager<LennyManager>
 	{
         FloorNumber += HitHead ? 0 : isUp ? 1 : -1;
 
-        if(FloorNumber < 0)
+        if(FloorNumber < 0 && isCheatButton)
         {
-            if(isCheatButton)
-			{
-                FloorNumber = 7;
-			}
-            else
-			{
-                throw new System.Exception("This shouldn't happen. Figure it out"); //TODO: Remove this when you're done testing.
-			}
+            FloorNumber = 7;
         }
         else if(FloorNumber == 0 && !isCheatButton)
 		{
@@ -101,8 +95,7 @@ public class LennyManager : Manager<LennyManager>
 			}
             else
 			{
-                Time.timeScale = 0.0F;
-                //TODO: Win Level
+                GameManager.Instance.WinLevel();
 			}
 		}
 
@@ -116,8 +109,7 @@ public class LennyManager : Manager<LennyManager>
         if(RemainingLives <= 0)
         {
             RemainingLives = 0;
-            Time.timeScale = 0.0F;
-            //TODO: GameOver
+            GameManager.Instance.Restart();
         }
     }
 
