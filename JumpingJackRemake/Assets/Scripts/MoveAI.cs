@@ -21,6 +21,8 @@ public class MoveAI : MonoBehaviour
 	private int BottomFloor => 1;
 	private Vector3 HorizontalDirection => _moveDirection == MoveAIDirection.LeftUp ? Vector3.left : Vector3.right;
 
+	public MoveAIDirection MoveDirection { get => _moveDirection; set => _moveDirection = value; }
+
 	private void Start()
 	{
 		_hiddenTime = _delayAfterFloorCycleReset;

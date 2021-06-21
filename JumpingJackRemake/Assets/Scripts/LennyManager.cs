@@ -77,6 +77,7 @@ public class LennyManager : MonoBehaviour
         JumpIsGood = true;
         JumpInitialized = false;
         ChangeFloors(isUp: true, isCheatButton: false);
+        HoleManager.Instance.SpawnHole();
     }
 
     public void Stun()

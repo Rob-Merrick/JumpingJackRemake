@@ -17,6 +17,11 @@ public class WarpManager : MonoBehaviour
         Instance = this;
     }
 
+    public void PlaceObjectOnCeiling(GameObject gameObject, int floorNumberBelow)
+	{
+        gameObject.transform.position = new Vector3(gameObject.transform.position.x, _floor0Position + (floorNumberBelow + 1) * _deltaFloorPosition - 18.0F, gameObject.transform.position.z);
+    }
+
     public void PlaceObjectOnFloor(GameObject gameObject, int floorNumber, int floorPositionOffset)
 	{
         ValidateFloor(gameObject, floorNumber);

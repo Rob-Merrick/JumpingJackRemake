@@ -9,6 +9,7 @@ public class LennyHitHeadUpdate : StateMachineBehaviour
 	{
 		_lennyManager = LennyManager.Instance;
 		_previousTimeScale = Time.timeScale;
+		WarpManager.Instance.PlaceObjectOnCeiling(_lennyManager.LennyGameObject, _lennyManager.FloorNumber);
 		Time.timeScale = 0.15F;
 	}
 
