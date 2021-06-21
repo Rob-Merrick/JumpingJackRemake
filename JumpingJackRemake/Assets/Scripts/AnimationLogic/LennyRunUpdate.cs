@@ -7,16 +7,19 @@ public class LennyRunUpdate : StateMachineBehaviour
 	public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 	{
         _lennyManager = LennyManager.Instance;
-	}
+        WarpManager.Instance.PlaceObjectOnFloor(_lennyManager.LennyGameObject, _lennyManager.FloorNumber, _lennyManager.FloorOffset);
+    }
 
 	public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 	{
         bool isRightArrowDown = Input.GetKey(KeyCode.RightArrow);
         bool isLeftArrowDown = Input.GetKey(KeyCode.LeftArrow);
-        bool isUpArrowDown = Input.GetKey(KeyCode.UpArrow);
-        bool isDownArrowDown = Input.GetKey(KeyCode.DownArrow);
 
-        if(isRightArrowDown && !isLeftArrowDown)
+        if(_lennyManager.IsGoingToFall())
+        {
+            animator.SetOnlyTrigger("Fall");
+        }
+        else if(isRightArrowDown && !isLeftArrowDown)
         {
             _lennyManager.SpriteRenderer.flipX = true;
             _lennyManager.LennyGameObject.transform.Translate(Time.deltaTime * _lennyManager.LennySpeed * Vector3.right);
@@ -26,15 +29,9 @@ public class LennyRunUpdate : StateMachineBehaviour
             _lennyManager.SpriteRenderer.flipX = false;
             _lennyManager.LennyGameObject.transform.Translate(Time.deltaTime * _lennyManager.LennySpeed * Vector3.left);
         }
-        else if(isUpArrowDown && !isDownArrowDown)
+        else if(Input.GetKey(KeyCode.UpArrow))
         {
-            _lennyManager.SpriteRenderer.flipX = false;
-            _lennyManager.LennyGameObject.transform.Translate(Time.deltaTime * _lennyManager.LennySpeed * Vector3.up);
-        }
-        else if(isDownArrowDown && !isUpArrowDown)
-        {
-            _lennyManager.SpriteRenderer.flipX = false;
-            _lennyManager.LennyGameObject.transform.Translate(Time.deltaTime * _lennyManager.LennySpeed * Vector3.down);
+            animator.SetOnlyTrigger("Jump");
         }
         else
         {

@@ -2,17 +2,26 @@ using UnityEngine;
 
 public class Lenny : MonoBehaviour
 {
-	public int ActiveHoles { get; private set; } = 0;
+	private LennyManager _lennyManager;
+
+	private void Start()
+	{
+		_lennyManager = LennyManager.Instance;
+	}
 
 	private void OnTriggerEnter2D(Collider2D collision)
 	{
 		if(collision.gameObject.HasComponent<Hole>())
 		{
-			ActiveHoles++;
+			_lennyManager.AddActiveHole();
 		}
-		else if(collision.gameObject.HasComponent<Hazard>() || ActiveHoles == 0)
+		else if(collision.gameObject.HasComponent<Hazard>())
 		{
-			LennyManager.Instance.Stun();
+			_lennyManager.Stun();
+		}
+		else if(_lennyManager.ActiveHoles == 0)
+		{
+			_lennyManager.HitHead = true;
 		}
 	}
 
@@ -20,7 +29,12 @@ public class Lenny : MonoBehaviour
 	{
 		if(collision.gameObject.HasComponent<Hole>())
 		{
-			ActiveHoles--;
+			_lennyManager.RemoveActiveHole();
+
+			if(_lennyManager.ActiveHoles == 0 && _lennyManager.JumpIsGood)
+			{
+				_lennyManager.JumpIsGood = false;
+			}
 		}
 	}
 }

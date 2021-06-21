@@ -7,13 +7,18 @@ public class LennyStunUpdate : StateMachineBehaviour
 	public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 	{
         _lennyManager = LennyManager.Instance;
+		WarpManager.Instance.PlaceObjectOnFloor(_lennyManager.LennyGameObject, _lennyManager.FloorNumber, _lennyManager.FloorOffset);
 	}
 
 	public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 	{
 		animator.SetFloat("StunTime", animator.GetFloat("StunTime") + Time.deltaTime);
 
-		if(animator.GetFloat("StunTime") >= _lennyManager.StunTime)
+		if(_lennyManager.IsGoingToFall())
+		{
+			animator.SetOnlyTrigger("Fall");
+		}
+		else if(animator.GetFloat("StunTime") >= _lennyManager.StunTime)
 		{
 			animator.SetOnlyTrigger("Idle");
 		}

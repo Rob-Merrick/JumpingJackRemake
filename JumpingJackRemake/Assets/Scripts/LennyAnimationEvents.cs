@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class LennyAnimationEvents : MonoBehaviour
 {
-	private void JumpInitialized()
+	public void JumpInitialized()
 	{
-		LennyManager.Instance.JumpInitialized();
+		LennyManager.Instance.JumpInitialized = true;
 	}
 }

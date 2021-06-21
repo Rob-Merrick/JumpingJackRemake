@@ -29,14 +29,14 @@ public class WarpManager : MonoBehaviour
         {
             if(floorNumber == 0)
             {
-                if(gameObject != LennyManager.Instance.LennyGameObject)
+                if(gameObject != LennyManager.Instance.LennyGameObject && gameObject.name != "LennyFallTarget")
                 {
                     throw new System.Exception($"Cannot place an object onto floor {floorNumber}. Only Lenny can be placed on the area below the first floor");
                 }
             }
             else if(floorNumber == 8)
 			{
-                if(gameObject.GetComponent<Hole>() == null)
+                if(gameObject.GetComponent<Hole>() == null && gameObject != LennyManager.Instance.LennyGameObject && gameObject.name != "LennyJumpTarget")
 				{
                     throw new System.Exception($"Cannot place an object onto floor {floorNumber}. Only holes can be placed on the top floor");
                 }
