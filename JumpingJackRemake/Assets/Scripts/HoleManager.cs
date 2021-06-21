@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HoleManager : MonoBehaviour
+public class HoleManager : Manager<HoleManager>
 {
 	[SerializeField] private Hole _holePrefab;
 
@@ -17,21 +17,9 @@ public class HoleManager : MonoBehaviour
 		{ 7, MoveAIDirection.LeftUp },
 	};
 
-    public static HoleManager Instance { get; private set; }
-
 	private readonly List<Hole> _holes = new List<Hole>();
 
 	public Hole[] Holes => _holes.ToArray();
-
-	private void Awake()
-	{
-		if(Instance != null)
-		{
-			throw new System.Exception($"Attempting to overwrite the singleton instance for {name}");
-		}
-
-		Instance = this;
-	}
 
 	private void Start()
 	{

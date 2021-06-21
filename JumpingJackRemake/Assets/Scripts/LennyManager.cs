@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class LennyManager : MonoBehaviour
+public class LennyManager : Manager<LennyManager>
 {
     [SerializeField] private GameObject _lenny;
     [SerializeField] private int _floorOffset = -1;
@@ -11,8 +11,6 @@ public class LennyManager : MonoBehaviour
 
     private SpriteRenderer _spriteRenderer;
     private Animator _animator;
-
-    public static LennyManager Instance { get; private set; }
 
     public bool JumpInitialized { get; set; } = false;
     public bool JumpIsGood { get; set; } = false;
@@ -27,16 +25,6 @@ public class LennyManager : MonoBehaviour
     public float JumpSpeed => _jumpSpeed;
     public SpriteRenderer SpriteRenderer => _spriteRenderer;
     public GameObject LennyGameObject => _lenny;
-
-	private void Awake()
-	{
-        if(Instance != null)
-        {
-            throw new System.Exception($"Attempting to overwrite the singleton instance for {name}");
-        }
-
-        Instance = this;
-    }
 
 	private void Start()
 	{

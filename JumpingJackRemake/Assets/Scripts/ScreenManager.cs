@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class ScreenManager : MonoBehaviour
+public class ScreenManager : Manager<ScreenManager>
 {
 	[SerializeField] private int _worldLeftEdge;
 	[SerializeField] private int _worldRightEdge;
@@ -11,8 +11,6 @@ public class ScreenManager : MonoBehaviour
 	[SerializeField] private int _playableAreaRightEdge;
 	[SerializeField] private int _playableAreaBottomEdge;
 	[SerializeField] private int _playableAreaTopEdge;
-
-	public static ScreenManager Instance;
 
 	public int  WorldLeftEdge => _worldLeftEdge;
 	public int  WorldRightEdge => _worldRightEdge;
@@ -27,16 +25,6 @@ public class ScreenManager : MonoBehaviour
 	public int  PlayableAreaTopEdge => _playableAreaTopEdge;
 	public int  PlayableAreaHorizontalDistance => _playableAreaRightEdge - _playableAreaLeftEdge;
 	public int  PlayableAreaVerticalDistance => _playableAreaTopEdge - _playableAreaBottomEdge;
-
-	private void Awake()
-	{
-		if(Instance != null)
-		{
-			throw new System.Exception($"Attempting to overwrite the singleton instance for {name}");
-		}
-
-		Instance = this;
-	}
 
 	private void Start()
 	{

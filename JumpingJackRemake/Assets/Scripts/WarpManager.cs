@@ -1,25 +1,14 @@
 using UnityEngine;
 
-public class WarpManager : MonoBehaviour
+public class WarpManager : Manager<WarpManager>
 {
     private int _floor0Position = -87;
     private int _deltaFloorPosition = 24;
-
-    public static WarpManager Instance { get; private set; }
-    
-    private void Awake()
-    {
-        if(Instance != null)
-		{
-            throw new System.Exception($"Attempting to overwrite the singleton instance for {name}");
-		}
-
-        Instance = this;
-    }
+    private int _deltaCeilingOffset = -18;
 
     public void PlaceObjectOnCeiling(GameObject gameObject, int floorNumberBelow)
 	{
-        gameObject.transform.position = new Vector3(gameObject.transform.position.x, _floor0Position + (floorNumberBelow + 1) * _deltaFloorPosition - 18.0F, gameObject.transform.position.z);
+        gameObject.transform.position = new Vector3(gameObject.transform.position.x, _floor0Position + (floorNumberBelow + 1) * _deltaFloorPosition + _deltaCeilingOffset, gameObject.transform.position.z);
     }
 
     public void PlaceObjectOnFloor(GameObject gameObject, int floorNumber, int floorPositionOffset)
