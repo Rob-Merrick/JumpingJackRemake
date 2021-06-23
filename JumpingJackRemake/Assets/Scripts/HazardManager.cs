@@ -13,8 +13,14 @@ public class HazardManager : Manager<HazardManager>
 	[SerializeField] private Hazard _squidPrefab;
 	[SerializeField] private Hazard _trainPrefab;
 	[SerializeField] private Hazard _witchPrefab;
+	[SerializeField] private Color _blue;
+	[SerializeField] private Color _green;
+	[SerializeField] private Color _magenta;
+	[SerializeField] private Color _yellow;
+	[SerializeField] private Color _black;
+	[SerializeField] private Color _red;
 
-	private readonly Color[] _colorListLookup = new [] { Color.blue, Color.green, Color.magenta, Color.yellow, Color.black, Color.red };
+	private Color[] _colorListLookup;
 	private readonly Hazard[] _hazardsLookup = new Hazard[10];
 
 	private readonly List<Hazard> _hazards = new List<Hazard>();
@@ -23,6 +29,7 @@ public class HazardManager : Manager<HazardManager>
 
 	private void Start()
 	{
+		_colorListLookup = new[] { _blue, _green, _magenta, _yellow, _black, _red };
 		GenerateRandomHazardOrder();
 	}
 
@@ -51,17 +58,17 @@ public class HazardManager : Manager<HazardManager>
 		allHazards.Add(_trainPrefab);
 		allHazards.Add(_witchPrefab);
 
-		for(int i = 0; i < allHazards.Count; i++)
+		for(int i = 0; i < _hazardsLookup.Length; i++)
 		{
 			int randomIndex = Random.Range(0, allHazards.Count);
-			_hazardsLookup[i] = allHazards[Random.Range(0, allHazards.Count)];
+			_hazardsLookup[i] = allHazards[randomIndex];
 			allHazards.RemoveAt(randomIndex);
 		}
 	}
 
 	private void Initialize()
 	{
-		for(int i = 0; i < GameManager.Instance.CurrentLevel; i++)
+		for(int i = 0; i < GameManager.Instance.CurrentLevel && i < 20; i++)
 		{
 			Hazard hazard = Instantiate(_hazardsLookup[i % _hazardsLookup.Length]);
 			hazard.transform.SetParent(gameObject.transform, worldPositionStays: false);

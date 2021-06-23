@@ -16,6 +16,7 @@ public class LennyManager : Manager<LennyManager>
     public bool JumpInitialized { get; set; } = false;
     public bool JumpIsGood { get; set; } = false;
     public bool HitHead { get; set; } = false;
+    public bool IsKonamiCodeEnabled { get; set; } = false;
     public int RemainingLives { get; private set; } = 6;
     public int ActiveHoles { get; private set; } = 0;
     public int FloorNumber { get; private set; } = 0;
@@ -35,12 +36,10 @@ public class LennyManager : Manager<LennyManager>
         _startLocation = _lenny.transform.position;
 	}
 
-#if UNITY_EDITOR
 	private void Update()
     {
         UpdateTestingShortcuts();
     }
-#endif
 
 	public void Restart()
 	{
@@ -50,6 +49,16 @@ public class LennyManager : Manager<LennyManager>
         ActiveHoles = 0;
         FloorNumber = 0;
         _lenny.transform.position = _startLocation;
+	}
+
+    public void GainLife()
+	{
+        RemainingLives++;
+	}
+
+    public void ResetLives()
+	{
+        RemainingLives = 6;
 	}
 
 	public void AddActiveHole()
@@ -127,14 +136,18 @@ public class LennyManager : Manager<LennyManager>
         if(RemainingLives <= 0)
         {
             RemainingLives = 0;
-            GameManager.Instance.Restart();
+            GameManager.Instance.GameOver();
         }
     }
 
-//Debugging methods
-#if UNITY_EDITOR
+    //Debugging methods
     private void UpdateTestingShortcuts()
 	{
+        if(!IsKonamiCodeEnabled)
+		{
+            return;
+		}
+
         if(Input.GetKeyDown(KeyCode.Equals) || Input.GetKeyDown(KeyCode.KeypadPlus))
 		{
             ChangeFloors(isUp: true, isCheatButton: true);
@@ -147,6 +160,13 @@ public class LennyManager : Manager<LennyManager>
 		{
             _animator.SetOnlyTrigger("Stun");
 		}
+        else if(Input.GetKeyDown(KeyCode.W))
+		{
+            GameManager.Instance.WinLevel();
+		}
+        else if(Input.GetKeyDown(KeyCode.L))
+		{
+            RemoveLife();
+		}
     }
-#endif
 }

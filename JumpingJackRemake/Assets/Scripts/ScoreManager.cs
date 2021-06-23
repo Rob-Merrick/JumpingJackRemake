@@ -1,12 +1,11 @@
-using UnityEngine;
-
 public class ScoreManager : Manager<ScoreManager>
 {
 	private int _highScore = 0;
 	private int _currentScore = 0;
 
 	public int HighScore => _highScore;
-	public int CurrentCore => _currentScore;
+	public int CurrentScore => _currentScore;
+	public bool IsNewHighScore { get; private set; } = false;
 
 	public void AddPoints(int points)
 	{
@@ -16,11 +15,17 @@ public class ScoreManager : Manager<ScoreManager>
 		}
 
 		_currentScore += points;
-		_highScore = Mathf.Max(_highScore, _currentScore);
+
+		if(_currentScore > _highScore)
+		{
+			IsNewHighScore = true;
+			_highScore = _currentScore;
+		}
 	}
 
 	public void Restart()
 	{
 		_currentScore = 0;
+		IsNewHighScore = false;
 	}
 }

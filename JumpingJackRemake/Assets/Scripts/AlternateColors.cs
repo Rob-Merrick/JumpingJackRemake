@@ -10,6 +10,7 @@ public class AlternateColors : MonoBehaviour
     private TextMeshProUGUI _text;
     private Color _primaryColor;
     private Color _secondaryColor;
+    private float _totalTime;
 
     private void Start()
     {
@@ -19,9 +20,15 @@ public class AlternateColors : MonoBehaviour
         _secondaryColor = _text.color;
     }
 
-    private void Update()
+	private void OnEnable()
+	{
+		_totalTime = 0.0F;
+	}
+
+	private void Update()
     {
-        bool isSwapped = Time.realtimeSinceStartup % _blinkRate < _blinkRate / 2.0F;
+        _totalTime += Time.deltaTime;
+        bool isSwapped = _totalTime % _blinkRate < _blinkRate / 2.0F;
         _backgroundImage.color = isSwapped ? _primaryColor : _secondaryColor;
         _text.color = isSwapped ? _secondaryColor : _primaryColor;
     }

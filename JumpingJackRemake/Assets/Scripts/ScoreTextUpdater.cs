@@ -8,7 +8,7 @@ public class ScoreTextUpdater : MonoBehaviour
     private int? _previousScore;
     private TextMeshProUGUI _scoreText;
 
-    private int Score => _isHighScore ? ScoreManager.Instance.HighScore : ScoreManager.Instance.CurrentCore;
+    private int Score => _isHighScore ? ScoreManager.Instance.HighScore : ScoreManager.Instance.CurrentScore;
     private string Prefix => _isHighScore ? "HI" : "SC";
 
 	private void Start()
