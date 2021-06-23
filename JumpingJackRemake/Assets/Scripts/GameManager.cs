@@ -159,6 +159,7 @@ public class GameManager : Manager<GameManager>
 	private void Initialize()
 	{
 		IsReady = false;
+		PlacementManager.Instance.Restart();
 		LennyManager.Instance.Restart();
 		LennyManager.Instance.Animator.SetOnlyTrigger("Idle");
 		HoleManager.Instance.Restart();

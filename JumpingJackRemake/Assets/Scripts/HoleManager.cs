@@ -5,7 +5,7 @@ public class HoleManager : Manager<HoleManager>
 {
 	[SerializeField] private Hole _holePrefab;
 
-	private static IDictionary<int, MoveAIDirection> _moveDirectionLookup = new Dictionary<int, MoveAIDirection>()
+	private readonly static IDictionary<int, MoveAIDirection> _moveDirectionLookup = new Dictionary<int, MoveAIDirection>()
 	{
 		{ 0, MoveAIDirection.LeftUp },
 		{ 1, MoveAIDirection.RightDown },
@@ -18,6 +18,7 @@ public class HoleManager : Manager<HoleManager>
 	};
 
 	private readonly List<Hole> _holes = new List<Hole>();
+	private readonly List<Hole> _inactiveHoles = new List<Hole>();
 
 	public Hole[] Holes => _holes.ToArray();
 
@@ -28,24 +29,42 @@ public class HoleManager : Manager<HoleManager>
 			Destroy(hole.gameObject);
 		}
 
+		foreach(Hole hole in _inactiveHoles)
+		{
+			Destroy(hole.gameObject);
+		}
+
 		_holes.Clear();
+		_inactiveHoles.Clear();
 		Initialize();
 	}
 
 	public void SpawnHole()
 	{
-		if(_holes.Count < 8)
+		if(_inactiveHoles.Count > 0)
 		{
-			MoveAIDirection moveDirection = _moveDirectionLookup[_holes.Count];
-			Hole hole = Instantiate(_holePrefab);
-			hole.gameObject.transform.SetParent(transform, worldPositionStays: false);
-			hole.GetComponent<MoveAI>().MoveDirection = moveDirection;
-			_holes.Add(hole);
+			Hole holeToSpawn = _inactiveHoles[0];
+			_inactiveHoles.RemoveAt(0);
+			holeToSpawn.GetComponent<MoveAI>().IsSpawned = true;
+			_holes.Add(holeToSpawn);
 		}
 	}
 
+	//This works by spawning the maximum number of holes from the beginning so that they can all maintain the right distance away from each other.
+	//Holes not "spawned" yet are just hidden until SpawnHole is called.
 	private void Initialize()
 	{
+		for(int i = 0; i < 8; i++)
+		{
+			MoveAIDirection moveDirection = _moveDirectionLookup[i];
+			Hole hole = Instantiate(_holePrefab);
+			MoveAI holeMovement = hole.GetComponent<MoveAI>();
+			hole.gameObject.transform.SetParent(transform, worldPositionStays: false);
+			holeMovement.MoveDirection = moveDirection;
+			holeMovement.IsSpawned = false;
+			_inactiveHoles.Add(hole);
+		}
+
 		SpawnHole();
 		SpawnHole();
 	}

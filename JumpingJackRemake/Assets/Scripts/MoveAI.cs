@@ -16,27 +16,32 @@ public class MoveAI : MonoBehaviour
 	private int _floorNumber;
 	private float _hiddenTime;
 	private SpriteRenderer _spriteRenderer;
+	private BoxCollider2D _boxCollider;
 
 	private int TopFloor => _includeTopFloor ? 8 : 7;
 	private int BottomFloor => 1;
 	private Vector3 HorizontalDirection => _moveDirection == MoveAIDirection.LeftUp ? Vector3.left : Vector3.right;
 
 	public MoveAIDirection MoveDirection { get => _moveDirection; set => _moveDirection = value; }
+	public bool IsSpawned { get; set; } = true;
 
 	private void Start()
 	{
 		_hiddenTime = _delayAfterFloorCycleReset;
 		_spriteRenderer = GetComponent<SpriteRenderer>();
-		_floorNumber = Random.Range(1, 8);
+		_boxCollider = GetComponent<BoxCollider2D>();
+		(int floorNumber, Vector2Int screenPosition) = PlacementManager.Instance.GetRandomPosition();
+		_floorNumber = floorNumber;
+		gameObject.transform.position = new Vector3(screenPosition.x, screenPosition.y, gameObject.transform.position.z);
 		WarpManager.Instance.PlaceObjectOnFloor(gameObject, _floorNumber, _floorPositionOffset);
-		gameObject.transform.position += Random.Range(ScreenManager.Instance.PlayableAreaLeftEdge, ScreenManager.Instance.PlayableAreaRightEdge) * Vector3.right;
 	}
 
 	private void Update()
 	{
 		if(_hiddenTime >= _delayAfterFloorCycleReset)
 		{
-			_spriteRenderer.enabled = true;
+			_spriteRenderer.enabled = IsSpawned;
+			_boxCollider.enabled = IsSpawned;
 			gameObject.transform.Translate(Time.deltaTime * GameSettingsManager.Instance.RunSpeed * HorizontalDirection);
 		}
 		else

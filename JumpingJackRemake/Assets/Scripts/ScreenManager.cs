@@ -11,6 +11,8 @@ public class ScreenManager : Manager<ScreenManager>
 	[SerializeField] private int _playableAreaRightEdge;
 	[SerializeField] private int _playableAreaBottomEdge;
 	[SerializeField] private int _playableAreaTopEdge;
+	[SerializeField] private Color _whiteScreenFlashColor;
+	[SerializeField] private Color _pinkScreenFlashColor;
 
 	public int  WorldLeftEdge => _worldLeftEdge;
 	public int  WorldRightEdge => _worldRightEdge;
@@ -33,22 +35,28 @@ public class ScreenManager : Manager<ScreenManager>
 
 	public void FlashScreen()
 	{
-		StartCoroutine(FlashScreenCoroutine());
+		StartCoroutine(FlashScreenCoroutine(_whiteScreenFlashColor, 0.15F));
 	}
 
-	private IEnumerator FlashScreenCoroutine()
+	public void FlashScreenPink()
 	{
+		StartCoroutine(FlashScreenCoroutine(_pinkScreenFlashColor, 0.15F));
+	}
+
+	private IEnumerator FlashScreenCoroutine(Color screenColor, float flashTime)
+	{
+		Time.timeScale = 0.1F;
 		Color previousColor = Camera.main.backgroundColor;
-		Camera.main.backgroundColor = Color.white;
+		Camera.main.backgroundColor = screenColor;
 
 		foreach(Hole hole in HoleManager.Instance.Holes)
 		{
-			hole.GetComponent<SpriteRenderer>().color = Color.white;
+			hole.GetComponent<SpriteRenderer>().color = screenColor;
 		}
 
 		for(int i = 0; i < 2; i++)
 		{
-			yield return new WaitForSecondsRealtime(0.1F);
+			yield return new WaitForSecondsRealtime(flashTime);
 		}
 
 		Camera.main.backgroundColor = previousColor;
@@ -57,6 +65,8 @@ public class ScreenManager : Manager<ScreenManager>
 		{
 			hole.GetComponent<SpriteRenderer>().color = previousColor;
 		}
+
+		Time.timeScale = 1.0F;
 	}
 
 	private void VerifyEdges()

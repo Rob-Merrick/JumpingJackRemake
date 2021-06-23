@@ -49,6 +49,7 @@ public class LennyManager : Manager<LennyManager>
         ActiveHoles = 0;
         FloorNumber = 0;
         _lenny.transform.position = _startLocation;
+        _lenny.GetComponent<Lenny>().Restart();
 	}
 
     public void GainLife()
@@ -98,6 +99,7 @@ public class LennyManager : Manager<LennyManager>
 
     public void Stun()
 	{
+        ScreenManager.Instance.FlashScreenPink();
         _animator.SetFloat("StunTime", 0.0F);
         _animator.SetOnlyTrigger("Stun");
 	}

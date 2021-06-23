@@ -1,12 +1,19 @@
+using System;
 using UnityEngine;
 
 public class LennyRunUpdate : StateMachineBehaviour
 {
     private LennyManager _lennyManager;
+    private bool _isOnScreenLeftEdge;
+    private bool _isOnScreenRightEdge;
+    private float? _forcedWarpTagetX;
 
 	public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 	{
         _lennyManager = LennyManager.Instance;
+        _isOnScreenLeftEdge = false;
+        _isOnScreenRightEdge = false;
+        _forcedWarpTagetX = null;
         WarpManager.Instance.PlaceObjectOnFloor(_lennyManager.LennyGameObject, _lennyManager.FloorNumber, _lennyManager.FloorOffset);
     }
 
@@ -15,19 +22,35 @@ public class LennyRunUpdate : StateMachineBehaviour
         bool isRightArrowDown = Input.GetKey(KeyCode.RightArrow);
         bool isLeftArrowDown = Input.GetKey(KeyCode.LeftArrow);
 
-        if(_lennyManager.IsGoingToFall())
+        if(_isOnScreenLeftEdge)
+		{
+            ForceRun(ref _isOnScreenLeftEdge, RunLeft);
+        }
+        else if(_isOnScreenRightEdge)
+		{
+            ForceRun(ref _isOnScreenRightEdge, RunRight);
+        }
+        else if(_lennyManager.LennyGameObject.transform.position.x <= ScreenManager.Instance.PlayableAreaLeftEdge)
+		{
+            _forcedWarpTagetX = ScreenManager.Instance.PlayableAreaRightEdge - 8.0F;
+            _isOnScreenLeftEdge = true;
+        }
+        else if(_lennyManager.LennyGameObject.transform.position.x >= ScreenManager.Instance.PlayableAreaRightEdge)
+		{
+            _forcedWarpTagetX = ScreenManager.Instance.PlayableAreaLeftEdge + 8.0F;
+            _isOnScreenRightEdge = true;
+        }
+        else if(_lennyManager.IsGoingToFall())
         {
             animator.SetOnlyTrigger("Fall");
         }
         else if(isRightArrowDown && !isLeftArrowDown)
         {
-            _lennyManager.SpriteRenderer.flipX = true;
-            _lennyManager.LennyGameObject.transform.Translate(Time.deltaTime * _lennyManager.LennySpeed * Vector3.right);
+            RunRight();
         }
         else if(isLeftArrowDown && !isRightArrowDown)
         {
-            _lennyManager.SpriteRenderer.flipX = false;
-            _lennyManager.LennyGameObject.transform.Translate(Time.deltaTime * _lennyManager.LennySpeed * Vector3.left);
+            RunLeft();
         }
         else if(Input.GetKey(KeyCode.UpArrow))
         {
@@ -37,6 +60,28 @@ public class LennyRunUpdate : StateMachineBehaviour
         {
             animator.SetOnlyTrigger("Idle");
             _lennyManager.SpriteRenderer.flipX = false;
+        }
+    }
+
+    private void RunLeft()
+	{
+        _lennyManager.SpriteRenderer.flipX = false;
+        _lennyManager.LennyGameObject.transform.Translate(Time.deltaTime * _lennyManager.LennySpeed * Vector3.left);
+    }
+
+    private void RunRight()
+	{
+        _lennyManager.SpriteRenderer.flipX = true;
+        _lennyManager.LennyGameObject.transform.Translate(Time.deltaTime * _lennyManager.LennySpeed * Vector3.right);
+    }
+
+    private void ForceRun(ref bool directionTrigger, Action runMethod)
+	{
+        runMethod.Invoke();
+
+        if(Mathf.Abs(_lennyManager.LennyGameObject.transform.position.x - _forcedWarpTagetX.Value) < 2.0F)
+        {
+            directionTrigger = false;
         }
     }
 }
