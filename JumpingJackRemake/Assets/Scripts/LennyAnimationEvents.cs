@@ -11,4 +11,12 @@ public class LennyAnimationEvents : MonoBehaviour
 	{
 		ScreenManager.Instance.FlashScreen();
 	}
+
+	public void PlayIdleSound(string soundName)
+	{
+		if(GameManager.Instance.IsReady)
+		{
+			SoundManager.Instance.GetAudioSourceByName(soundName).Play();
+		}
+	}
 }

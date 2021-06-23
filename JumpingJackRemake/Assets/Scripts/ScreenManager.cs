@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ScreenManager : Manager<ScreenManager>
 {
@@ -13,6 +14,7 @@ public class ScreenManager : Manager<ScreenManager>
 	[SerializeField] private int _playableAreaTopEdge;
 	[SerializeField] private Color _whiteScreenFlashColor;
 	[SerializeField] private Color _pinkScreenFlashColor;
+	[SerializeField] private GameObject _blackScreenFade;
 
 	public int  WorldLeftEdge => _worldLeftEdge;
 	public int  WorldRightEdge => _worldRightEdge;
@@ -33,18 +35,42 @@ public class ScreenManager : Manager<ScreenManager>
 		VerifyEdges();
 	}
 
+	public void FadeToBlack()
+	{
+		StartCoroutine(FadeToBlackCoroutine());
+	}
+
+	public void StopFade()
+	{
+		_blackScreenFade.GetComponent<Image>().color = new Color(0.0F, 0.0F, 0.0F, 0.0F);
+	}
+
 	public void FlashScreen()
 	{
-		StartCoroutine(FlashScreenCoroutine(_whiteScreenFlashColor, 0.15F));
+		StartCoroutine(FlashScreenCoroutine(_whiteScreenFlashColor, 0.15F, SoundManager.Instance.GetAudioSourceByName("HitHead")));
 	}
 
 	public void FlashScreenPink()
 	{
-		StartCoroutine(FlashScreenCoroutine(_pinkScreenFlashColor, 0.15F));
+		StartCoroutine(FlashScreenCoroutine(_pinkScreenFlashColor, 0.15F, SoundManager.Instance.GetAudioSourceByName("HazardHit")));
 	}
 
-	private IEnumerator FlashScreenCoroutine(Color screenColor, float flashTime)
+	private IEnumerator FadeToBlackCoroutine()
 	{
+		Image blackImage = _blackScreenFade.GetComponent<Image>();
+
+		while(blackImage.color.a < 1.0F)
+		{
+			blackImage.color = new Color(blackImage.color.r, blackImage.color.g, blackImage.color.b, blackImage.color.a + Time.deltaTime);
+			yield return null;
+		}
+
+		blackImage.color = new Color(blackImage.color.r, blackImage.color.g, blackImage.color.b, 1.0F);
+	}
+
+	private IEnumerator FlashScreenCoroutine(Color screenColor, float flashTime, AudioSource sound)
+	{
+		sound.Play();
 		Time.timeScale = 0.1F;
 		Color previousColor = Camera.main.backgroundColor;
 		Camera.main.backgroundColor = screenColor;
@@ -54,11 +80,7 @@ public class ScreenManager : Manager<ScreenManager>
 			hole.GetComponent<SpriteRenderer>().color = screenColor;
 		}
 
-		for(int i = 0; i < 2; i++)
-		{
-			yield return new WaitForSecondsRealtime(flashTime);
-		}
-
+		yield return new WaitForSecondsRealtime(flashTime);
 		Camera.main.backgroundColor = previousColor;
 
 		foreach(Hole hole in HoleManager.Instance.Holes)

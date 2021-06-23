@@ -11,6 +11,8 @@ public class LennyJumpUpdate : StateMachineBehaviour
 		_jumpTarget = new GameObject("LennyJumpTarget");
 		_jumpTarget.transform.position = _lennyManager.LennyGameObject.transform.position;
 		WarpManager.Instance.PlaceObjectOnFloor(_jumpTarget, _lennyManager.FloorNumber + 1, _lennyManager.FloorOffset);
+		AudioSource jumpSound = SoundManager.Instance.GetAudioSourceByName("Jump");
+		jumpSound.Play();
 	}
 
 	public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -34,6 +36,8 @@ public class LennyJumpUpdate : StateMachineBehaviour
 	public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 	{
 		_lennyManager.JumpInitialized = false;
+		AudioSource jumpSound = SoundManager.Instance.GetAudioSourceByName("Jump");
+		jumpSound.Stop();
 		Destroy(_jumpTarget);
 	}
 }

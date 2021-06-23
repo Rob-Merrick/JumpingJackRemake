@@ -15,6 +15,8 @@ public class LennyRunUpdate : StateMachineBehaviour
         _isOnScreenRightEdge = false;
         _forcedWarpTagetX = null;
         WarpManager.Instance.PlaceObjectOnFloor(_lennyManager.LennyGameObject, _lennyManager.FloorNumber, _lennyManager.FloorOffset);
+        AudioSource runSound = SoundManager.Instance.GetAudioSourceByName("Run");
+        runSound.Play();
     }
 
 	public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -63,7 +65,13 @@ public class LennyRunUpdate : StateMachineBehaviour
         }
     }
 
-    private void RunLeft()
+	public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+	{
+        AudioSource runSound = SoundManager.Instance.GetAudioSourceByName("Run");
+        runSound.Stop();
+    }
+
+	private void RunLeft()
 	{
         _lennyManager.SpriteRenderer.flipX = false;
         _lennyManager.LennyGameObject.transform.Translate(Time.deltaTime * _lennyManager.LennySpeed * Vector3.left);

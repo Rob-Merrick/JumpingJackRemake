@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -68,6 +69,17 @@ public class GameManager : Manager<GameManager>
 
 	public void WinLevel()
 	{
+		StartCoroutine(WinLevelCoroutine());
+	}
+
+	private IEnumerator WinLevelCoroutine()
+	{
+		IsReady = false;
+		AudioSource winLevelSound = SoundManager.Instance.GetAudioSourceByName("WinLevel");
+		winLevelSound.Play();
+		Time.timeScale = 0.0F;
+		yield return new WaitForSecondsRealtime(1.685F);
+		Time.timeScale = 1.0F;
 		CurrentLevel++;
 		Initialize();
 
@@ -97,6 +109,19 @@ public class GameManager : Manager<GameManager>
 
 	public void GameOver()
 	{
+		StartCoroutine(GameOverCoroutine());
+	}
+
+	private IEnumerator GameOverCoroutine()
+	{
+		IsReady = false;
+		AudioSource fallSound = SoundManager.Instance.GetAudioSourceByName("FallDown");
+		fallSound.Play();
+		//Time.timeScale = 0.0F;
+		ScreenManager.Instance.FadeToBlack();
+		yield return new WaitForSecondsRealtime(2.0F);
+		//Time.timeScale = 1.0F;
+		ScreenManager.Instance.StopFade();
 		DisplayGameOverScreen();
 	}
 
@@ -186,10 +211,12 @@ public class GameManager : Manager<GameManager>
 
 	private bool CheckForKonamiCode()
 	{
-		if(LennyManager.Instance.IsKonamiCodeEnabled)
+		if(!_isMainScreenVisible || LennyManager.Instance.IsKonamiCodeEnabled)
 		{
 			return false;
 		}
+
+		KeyCode? keyHit = GetKeyHit();
 
 		if(_konamiCodeWindow.activeSelf)
 		{
@@ -201,21 +228,31 @@ public class GameManager : Manager<GameManager>
 				return true;
 			}
 		}
-		else if(Input.GetKeyDown(_konamiCode[_konamiCodeIndex]))
+		else if(keyHit.HasValue)
 		{
-			_konamiCodeIndex++;
-			_konamiCodeTimer = 0.0F;
-
-			if(_konamiCodeIndex >= _konamiCode.Length)
+			if(keyHit.Value == _konamiCode[_konamiCodeIndex])
 			{
-				Time.timeScale = 0.0F;
-				_konamiCodeWindow.SetActive(true);
+				AudioSource idleSound = SoundManager.Instance.GetAudioSourceByName("Idle2");
+				idleSound.Play();
+				_konamiCodeIndex++;
+				_konamiCodeTimer = 0.0F;
+
+				if(_konamiCodeIndex >= _konamiCode.Length)
+				{
+					AudioSource konamiCodeActivatedSound = SoundManager.Instance.GetAudioSourceByName("WinLevel");
+					konamiCodeActivatedSound.Play();
+					Time.timeScale = 0.0F;
+					_konamiCodeWindow.SetActive(true);
+				}
+			}
+			else
+			{
+				KonamiCodeFailure();
 			}
 		}
-		else if(_konamiCodeTimer >= 0.75F)
+		else if(_konamiCodeIndex > 0 && _konamiCodeTimer >= 2.0F)
 		{
-			_konamiCodeTimer = 0.0F;
-			_konamiCodeIndex = 0;
+			KonamiCodeFailure();
 		}
 		else
 		{
@@ -223,6 +260,27 @@ public class GameManager : Manager<GameManager>
 		}
 
 		return false;
+	}
+
+	private void KonamiCodeFailure()
+	{
+		AudioSource idleSound = SoundManager.Instance.GetAudioSourceByName("Idle1");
+		idleSound.Play();
+		_konamiCodeTimer = 0.0F;
+		_konamiCodeIndex = 0;
+	}
+
+	private KeyCode? GetKeyHit()
+	{
+		foreach(KeyCode keyCode in Enum.GetValues(typeof(KeyCode)))
+		{
+			if(Input.GetKeyDown(keyCode))
+			{
+				return keyCode;
+			}
+		}
+
+		return null;
 	}
 
 	private void CheckForPauseMenu()

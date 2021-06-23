@@ -8,6 +8,8 @@ public class LennyStunUpdate : StateMachineBehaviour
 	{
         _lennyManager = LennyManager.Instance;
 		WarpManager.Instance.PlaceObjectOnFloor(_lennyManager.LennyGameObject, _lennyManager.FloorNumber, _lennyManager.FloorOffset);
+		AudioSource stunSound = SoundManager.Instance.GetAudioSourceByName("Stunned");
+		stunSound.Play();
 	}
 
 	public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -27,5 +29,7 @@ public class LennyStunUpdate : StateMachineBehaviour
 	public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 	{
 		animator.SetFloat("StunTime", 0.0F);
+		AudioSource stunSound = SoundManager.Instance.GetAudioSourceByName("Stunned");
+		stunSound.Stop();
 	}
 }

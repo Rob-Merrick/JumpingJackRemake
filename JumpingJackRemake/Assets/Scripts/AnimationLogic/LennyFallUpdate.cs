@@ -12,6 +12,8 @@ public class LennyFallUpdate : StateMachineBehaviour
 		_fallTarget.transform.position = _lennyManager.LennyGameObject.transform.position;
 		int targetFloor = _lennyManager.HitHead ? _lennyManager.FloorNumber : _lennyManager.FloorNumber - 1;
 		WarpManager.Instance.PlaceObjectOnFloor(_fallTarget, targetFloor, _lennyManager.FloorOffset);
+		AudioSource fallSound = SoundManager.Instance.GetAudioSourceByName("FallDown");
+		fallSound.Play();
 	}
 
 	public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -27,6 +29,8 @@ public class LennyFallUpdate : StateMachineBehaviour
 
 	public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 	{
+		AudioSource fallSound = SoundManager.Instance.GetAudioSourceByName("FallDown");
+		fallSound.Stop();
 		Destroy(_fallTarget);
 	}
 }
