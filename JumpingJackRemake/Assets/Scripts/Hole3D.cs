@@ -2,15 +2,20 @@ using UnityEngine;
 
 public class Hole3D : MonoBehaviour
 {
-    [SerializeField] [Range(0.0F, 2.0F * Mathf.PI)] private float _sizeRadians = 0.35F;
-    [SerializeField] [Range(0.0F, 2.0F * Mathf.PI)] private float _rotationalSpeedRadians = 2.0F * Mathf.PI / 3.0F;
+    [SerializeField] private float _startRotationRadians = 0.0F;
+    [SerializeField] private MoveAIDirection _moveAIDirection = MoveAIDirection.LeftUp;
+    
+    public float CurrentRotation { get; private set; }
+    public int FloorNumber { get; private set; } = 1;
 
-    public float Size => _sizeRadians;
-    public float CurrentRotation { get; private set; } = 0.0F;
+	private void Start()
+	{
+		CurrentRotation = _startRotationRadians;
+	}
 
-    private void Update()
+	private void Update()
     {
-        CurrentRotation += _rotationalSpeedRadians * Time.deltaTime;
+        CurrentRotation += _moveAIDirection == MoveAIDirection.LeftUp ? HoleManager3D.Instance.RotationalSpeedRadians * Time.deltaTime : -HoleManager3D.Instance.RotationalSpeedRadians * Time.deltaTime;
         CurrentRotation = Mathf.Repeat(CurrentRotation, 2.0F * Mathf.PI);
     }
 }

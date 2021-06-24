@@ -4,6 +4,7 @@ using UnityEngine;
 [ExecuteAlways]
 [RequireComponent(typeof(MeshRenderer))]
 [RequireComponent(typeof(MeshFilter))]
+[RequireComponent(typeof(MeshCollider))]
 public class DiscMesh : MonoBehaviour
 {
 	[SerializeField] [Range(0.0F, 1.0F)] private float _innerRadiusPercent = 0.5F;
@@ -19,17 +20,37 @@ public class DiscMesh : MonoBehaviour
 	private Vector3[] _vertices;
 	private int[] _triangles;
 	private MeshFilter _meshFilter;
+	private MeshCollider _meshCollider;
+
+	private float _actualArcLength;
+
+	public float ArcLength
+	{
+		get => _actualArcLength;
+		set
+		{
+			_actualArcLength = value;
+			_arcLength = Mathf.Repeat(value, 2.0F * Mathf.PI);
+		}
+	}
+
+	public float StartingRadians { get => _startingRadians; set => _startingRadians = Mathf.Repeat(value, 2.0F * Mathf.PI); }
 
 	private void Update()
 	{
 		Redraw();
 	}
 
-	public void Redraw()
+	private void Redraw()
 	{
 		if(_meshFilter == null)
 		{
 			_meshFilter = gameObject.GetComponent<MeshFilter>();
+		}
+
+		if(_meshCollider == null)
+		{
+			_meshCollider = gameObject.GetComponent<MeshCollider>();
 		}
 
 		if(Application.isPlaying)
@@ -41,6 +62,8 @@ public class DiscMesh : MonoBehaviour
 			};
 
 			_meshFilter.mesh.RecalculateNormals();
+			_meshFilter.mesh.RecalculateBounds();
+			_meshCollider.sharedMesh = _meshFilter.mesh;
 		}
 		else
 		{
@@ -51,6 +74,8 @@ public class DiscMesh : MonoBehaviour
 			};
 
 			_meshFilter.sharedMesh.RecalculateNormals();
+			_meshFilter.sharedMesh.RecalculateBounds();
+			_meshCollider.sharedMesh = _meshFilter.sharedMesh;
 		}
 	}
 
