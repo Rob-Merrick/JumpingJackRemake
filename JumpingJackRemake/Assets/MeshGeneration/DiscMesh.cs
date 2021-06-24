@@ -1,11 +1,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[ExecuteAlways]
 [RequireComponent(typeof(MeshRenderer))]
+[RequireComponent(typeof(MeshFilter))]
 public class DiscMesh : MonoBehaviour
 {
 	[SerializeField] [Range(0.0F, 1.0F)] private float _innerRadiusPercent = 0.5F;
-	[SerializeField] [Range(0.0F, 2.0F * Mathf.PI)] private float _arcLength = 2.0F * Mathf.PI;
+	[SerializeField] [Range(0.0F, 2.0F * Mathf.PI + 0.1F)] private float _arcLength = 2.0F * Mathf.PI;
 	[SerializeField] [Range(0.0F, 2.0F * Mathf.PI)] private float _startingRadians = 0.0F;
 	[SerializeField] [Range(0.0F, 1.0F)] private float _heightPercent = 1.0F;
 	[SerializeField] [Range(4, 100)] private int _segments = 8;
@@ -18,30 +20,43 @@ public class DiscMesh : MonoBehaviour
 	private int[] _triangles;
 	private MeshFilter _meshFilter;
 
-    private void Start()
-    {
-        _meshFilter = gameObject.AddComponent<MeshFilter>();
-    }
-
 	private void Update()
 	{
 		Redraw();
 	}
 
-	private void Redraw()
+	public void Redraw()
 	{
-		_meshFilter.mesh = new Mesh()
+		if(_meshFilter == null)
 		{
-			vertices = GenerateVertices(),
-			triangles = GenerateTriangles()
-		};
+			_meshFilter = gameObject.GetComponent<MeshFilter>();
+		}
 
-		_meshFilter.mesh.RecalculateNormals();
+		if(Application.isPlaying)
+		{
+			_meshFilter.mesh = new Mesh()
+			{
+				vertices = GenerateVertices(),
+				triangles = GenerateTriangles()
+			};
+
+			_meshFilter.mesh.RecalculateNormals();
+		}
+		else
+		{
+			_meshFilter.sharedMesh = new Mesh()
+			{
+				vertices = GenerateVertices(),
+				triangles = GenerateTriangles()
+			};
+
+			_meshFilter.sharedMesh.RecalculateNormals();
+		}
 	}
 
 	private Vector3[] GenerateVertices()
 	{
-		int newVerticesLength = 8 * (_segments + 1);
+		int newVerticesLength = 8 * (_segments + 2);
 
 		if(_vertices == null || _vertices.Length != newVerticesLength)
 		{
@@ -63,18 +78,35 @@ public class DiscMesh : MonoBehaviour
 			Vector3 upperInnerVertex = new Vector3(_innerRadiusPercent * cosRadians, 0.0F, _innerRadiusPercent * sinRadians);
 			Vector3 lowerOutterVertex = new Vector3(cosRadians, -_heightPercent, sinRadians);
 			Vector3 lowerInnerVertex = new Vector3(_innerRadiusPercent * cosRadians, -_heightPercent, _innerRadiusPercent * sinRadians);
+
+			if(i == 0)
+			{
+				_vertices[0] = upperOutterVertex;
+				_vertices[1] = upperInnerVertex;
+				_vertices[2] = lowerOutterVertex;
+				_vertices[3] = lowerInnerVertex;
+			}
+
 			_upperOutterVertices.Add(upperOutterVertex);
 			_upperInnerVertices.Add(upperInnerVertex);
 			_lowerOutterVertices.Add(lowerOutterVertex);
 			_lowerInnerVertices.Add(lowerInnerVertex);
-			_vertices[8 * i + 0] = upperOutterVertex;
-			_vertices[8 * i + 1] = upperOutterVertex;
-			_vertices[8 * i + 2] = upperInnerVertex;
-			_vertices[8 * i + 3] = upperInnerVertex;
-			_vertices[8 * i + 4] = lowerOutterVertex;
-			_vertices[8 * i + 5] = lowerOutterVertex;
-			_vertices[8 * i + 6] = lowerInnerVertex;
-			_vertices[8 * i + 7] = lowerInnerVertex;
+			_vertices[8 * i +  4] = upperOutterVertex;
+			_vertices[8 * i +  5] = upperOutterVertex;
+			_vertices[8 * i +  6] = upperInnerVertex;
+			_vertices[8 * i +  7] = upperInnerVertex;
+			_vertices[8 * i +  8] = lowerOutterVertex;
+			_vertices[8 * i +  9] = lowerOutterVertex;
+			_vertices[8 * i + 10] = lowerInnerVertex;
+			_vertices[8 * i + 11] = lowerInnerVertex;
+
+			if(i == _segments)
+			{
+				_vertices[_vertices.Length - 4] = upperOutterVertex;
+				_vertices[_vertices.Length - 3] = upperInnerVertex;
+				_vertices[_vertices.Length - 2] = lowerOutterVertex;
+				_vertices[_vertices.Length - 1] = lowerInnerVertex;
+			}
 		}
 
 		return _vertices;
@@ -82,64 +114,72 @@ public class DiscMesh : MonoBehaviour
 
 	private int[] GenerateTriangles()
 	{
-		int newTrianglesLength = 3 * _vertices.Length;
+		int newTrianglesLength = 3 * (_vertices.Length - 12);
 
 		if(_triangles == null || _triangles.Length != newTrianglesLength)
 		{
 			_triangles = new int[newTrianglesLength];
 		}
 
-		for(int i = 0; i + 23 < _triangles.Length - 12; i += 24)
+		int triangleIndexOffset = 6;
+
+		for(int i = 0; i + 12 + 23 < _triangles.Length; i += 24)
 		{
-			int offset = i / 3;
-			_triangles[i +  0] = offset + 0;
-			_triangles[i +  1] = offset + 2;
-			_triangles[i +  2] = offset + 8;
+			if(i == 0)
+			{
+				_triangles[0] = 1;
+				_triangles[1] = 0;
+				_triangles[2] = 3;
 
-			_triangles[i +  3] = offset + 6;
-			_triangles[i +  4] = offset + 12;
-			_triangles[i +  5] = offset + 14;
+				_triangles[3] = 0;
+				_triangles[4] = 2;
+				_triangles[5] = 3;
+			}
 
-			_triangles[i +  6] = offset + 1;
-			_triangles[i +  7] = offset + 9;
-			_triangles[i +  8] = offset + 13;
+			int vertexIndexOffset = i / 3 + 4;
+			_triangles[i + triangleIndexOffset +  0] = vertexIndexOffset + 0;
+			_triangles[i + triangleIndexOffset +  1] = vertexIndexOffset + 2;
+			_triangles[i + triangleIndexOffset +  2] = vertexIndexOffset + 8;
 
-			_triangles[i +  9] = offset + 3;
-			_triangles[i + 10] = offset + 7;
-			_triangles[i + 11] = offset + 15;
+			_triangles[i + triangleIndexOffset +  3] = vertexIndexOffset + 6;
+			_triangles[i + triangleIndexOffset +  4] = vertexIndexOffset + 12;
+			_triangles[i + triangleIndexOffset +  5] = vertexIndexOffset + 14;
 
-			_triangles[i + 12] = offset + 10;
-			_triangles[i + 13] = offset + 8;
-			_triangles[i + 14] = offset + 2;
+			_triangles[i + triangleIndexOffset +  6] = vertexIndexOffset + 1;
+			_triangles[i + triangleIndexOffset +  7] = vertexIndexOffset + 9;
+			_triangles[i + triangleIndexOffset +  8] = vertexIndexOffset + 13;
 
-			_triangles[i + 15] = offset + 12;
-			_triangles[i + 16] = offset + 6;
-			_triangles[i + 17] = offset + 4;
+			_triangles[i + triangleIndexOffset +  9] = vertexIndexOffset + 3;
+			_triangles[i + triangleIndexOffset + 10] = vertexIndexOffset + 7;
+			_triangles[i + triangleIndexOffset + 11] = vertexIndexOffset + 15;
 
-			_triangles[i + 18] = offset + 13;
-			_triangles[i + 19] = offset + 5;
-			_triangles[i + 20] = offset + 1;
+			_triangles[i + triangleIndexOffset + 12] = vertexIndexOffset + 10;
+			_triangles[i + triangleIndexOffset + 13] = vertexIndexOffset + 8;
+			_triangles[i + triangleIndexOffset + 14] = vertexIndexOffset + 2;
 
-			_triangles[i + 21] = offset + 15;
-			_triangles[i + 22] = offset + 11;
-			_triangles[i + 23] = offset + 3;
+			_triangles[i + triangleIndexOffset + 15] = vertexIndexOffset + 12;
+			_triangles[i + triangleIndexOffset + 16] = vertexIndexOffset + 6;
+			_triangles[i + triangleIndexOffset + 17] = vertexIndexOffset + 4;
+
+			_triangles[i + triangleIndexOffset + 18] = vertexIndexOffset + 13;
+			_triangles[i + triangleIndexOffset + 19] = vertexIndexOffset + 5;
+			_triangles[i + triangleIndexOffset + 20] = vertexIndexOffset + 1;
+
+			_triangles[i + triangleIndexOffset + 21] = vertexIndexOffset + 15;
+			_triangles[i + triangleIndexOffset + 22] = vertexIndexOffset + 11;
+			_triangles[i + triangleIndexOffset + 23] = vertexIndexOffset + 3;
+
+			if(i + 12 + 23 == _triangles.Length - 1)
+			{
+				_triangles[_triangles.Length - 6] = _vertices.Length - 4;
+				_triangles[_triangles.Length - 5] = _vertices.Length - 1;
+				_triangles[_triangles.Length - 4] = _vertices.Length - 2;
+
+				_triangles[_triangles.Length - 3] = _vertices.Length - 4;
+				_triangles[_triangles.Length - 2] = _vertices.Length - 3;
+				_triangles[_triangles.Length - 1] = _vertices.Length - 1;
+			}
 		}
-
-		_triangles[_triangles.Length - 12] = 4;
-		_triangles[_triangles.Length - 11] = 6;
-		_triangles[_triangles.Length - 10] = 0;
-
-		_triangles[_triangles.Length -  9] = 2;
-		_triangles[_triangles.Length -  8] = 0;
-		_triangles[_triangles.Length -  7] = 6;
-
-		_triangles[_triangles.Length - 6] = _vertices.Length - 8 + 0;
-		_triangles[_triangles.Length - 5] = _vertices.Length - 8 + 6;
-		_triangles[_triangles.Length - 4] = _vertices.Length - 8 + 4;
-
-		_triangles[_triangles.Length - 3] = _vertices.Length - 8 + 6;
-		_triangles[_triangles.Length - 2] = _vertices.Length - 8 + 0;
-		_triangles[_triangles.Length - 1] = _vertices.Length - 8 + 2;
 
 		return _triangles;
 	}
