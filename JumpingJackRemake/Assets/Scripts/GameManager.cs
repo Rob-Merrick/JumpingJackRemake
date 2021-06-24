@@ -117,10 +117,8 @@ public class GameManager : Manager<GameManager>
 		IsReady = false;
 		AudioSource fallSound = SoundManager.Instance.GetAudioSourceByName("FallDown");
 		fallSound.Play();
-		//Time.timeScale = 0.0F;
 		ScreenManager.Instance.FadeToBlack();
 		yield return new WaitForSecondsRealtime(2.0F);
-		//Time.timeScale = 1.0F;
 		ScreenManager.Instance.StopFade();
 		DisplayGameOverScreen();
 	}
