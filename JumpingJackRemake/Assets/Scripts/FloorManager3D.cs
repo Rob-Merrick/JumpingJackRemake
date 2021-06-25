@@ -22,6 +22,8 @@ public class FloorManager3D : Manager<FloorManager3D>
 
 	private float HoleSize => HoleManager3D.Instance.HoleSizeRadians;
 
+	public float FloorRadius => 22.4375F;
+
 	private void Start()
 	{
 		_floorNoHoles = Instantiate(_discPrefab);

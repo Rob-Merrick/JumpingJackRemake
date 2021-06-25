@@ -7,7 +7,7 @@ using UnityEngine;
 [RequireComponent(typeof(MeshCollider))]
 public class DiscMesh : MonoBehaviour
 {
-	[SerializeField] [Range(0.0F, 1.0F)] private float _innerRadiusPercent = 0.5F;
+	//[SerializeField] [Range(0.0F, 1.0F)] private float _innerRadiusPercent = 0.5F;
 	[SerializeField] [Range(0.0F, 2.0F * Mathf.PI + 0.1F)] private float _arcLength = 2.0F * Mathf.PI;
 	[SerializeField] [Range(0.0F, 2.0F * Mathf.PI)] private float _startingRadians = 0.0F;
 	[SerializeField] [Range(0.0F, 1.0F)] private float _heightPercent = 1.0F;
@@ -33,6 +33,8 @@ public class DiscMesh : MonoBehaviour
 			_arcLength = Mathf.Repeat(value, 2.0F * Mathf.PI);
 		}
 	}
+
+	private float InnerRadiusPercent => 0.795F;
 
 	public float StartingRadians { get => _startingRadians; set => _startingRadians = Mathf.Repeat(value, 2.0F * Mathf.PI); }
 
@@ -100,9 +102,9 @@ public class DiscMesh : MonoBehaviour
 			float cosRadians = Mathf.Cos(radians);
 			float sinRadians = Mathf.Sin(radians);
 			Vector3 upperOutterVertex = new Vector3(cosRadians, 0.0F, sinRadians);
-			Vector3 upperInnerVertex = new Vector3(_innerRadiusPercent * cosRadians, 0.0F, _innerRadiusPercent * sinRadians);
+			Vector3 upperInnerVertex = new Vector3(InnerRadiusPercent * cosRadians, 0.0F, InnerRadiusPercent * sinRadians);
 			Vector3 lowerOutterVertex = new Vector3(cosRadians, -_heightPercent, sinRadians);
-			Vector3 lowerInnerVertex = new Vector3(_innerRadiusPercent * cosRadians, -_heightPercent, _innerRadiusPercent * sinRadians);
+			Vector3 lowerInnerVertex = new Vector3(InnerRadiusPercent * cosRadians, -_heightPercent, InnerRadiusPercent * sinRadians);
 
 			if(i == 0)
 			{

@@ -22,7 +22,7 @@ public class WarpManager : Manager<WarpManager>
 	}
 
 #if UNITY_EDITOR
-	private void ValidateFloor(GameObject gameObject, int floorNumber)
+	public static void ValidateFloor(GameObject gameObject, int floorNumber)
 	{
 		if(floorNumber < 1 || floorNumber > 7)
 		{
