@@ -7,7 +7,6 @@ using UnityEngine;
 [RequireComponent(typeof(MeshCollider))]
 public class DiscMesh : MonoBehaviour
 {
-	//[SerializeField] [Range(0.0F, 1.0F)] private float _innerRadiusPercent = 0.5F;
 	[SerializeField] [Range(0.0F, 2.0F * Mathf.PI + 0.1F)] private float _arcLength = 2.0F * Mathf.PI;
 	[SerializeField] [Range(0.0F, 2.0F * Mathf.PI)] private float _startingRadians = 0.0F;
 	[SerializeField] [Range(0.0F, 1.0F)] private float _heightPercent = 1.0F;
@@ -43,7 +42,7 @@ public class DiscMesh : MonoBehaviour
 		Redraw();
 	}
 
-	private void Redraw()
+	public void Redraw()
 	{
 		if(_meshFilter == null)
 		{

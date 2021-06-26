@@ -25,5 +25,10 @@ public class Hazard3D : MonoBehaviour
     {
 		_rotationTotal += HazardManager3D.Instance.RunSpeed * Time.deltaTime;
 		_parent.transform.rotation = Quaternion.Euler(_rotationTotal * Vector3.up);
+
+		if(transform.position.y < -10.0F)
+		{
+			WarpManager3D.Instance.PlaceObjectOnFloor(gameObject, floorNumber: 8, verticalOffset: 10.0F);
+		}
     }
 }
