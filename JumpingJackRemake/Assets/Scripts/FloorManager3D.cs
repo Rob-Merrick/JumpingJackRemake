@@ -4,21 +4,13 @@ using UnityEngine;
 
 public class FloorManager3D : Manager<FloorManager3D>
 {
-	[SerializeField] private Floor3D _firstFloor;
-	[SerializeField] private Floor3D _secondFloor;
-	[SerializeField] private Floor3D _thirdFloor;
-	[SerializeField] private Floor3D _fourthFloor;
-	[SerializeField] private Floor3D _fifthFloor;
-	[SerializeField] private Floor3D _sixthFloor;
-	[SerializeField] private Floor3D _seventhFloor;
-	[SerializeField] private Floor3D _eigthFloor;
-
 	[SerializeField] private Hole3D _holePrefab;
 	[SerializeField] private DiscMesh _discPrefab;
 
-	private DiscMesh _floorNoHoles;
-	private List<Hole3D> _holes = new List<Hole3D>();
+	private readonly IDictionary<int, List<Hole3D>> _holesOnFloorLookup = new Dictionary<int, List<Hole3D>>();
+	private readonly IDictionary<int, DiscMesh> _floorsNoHoles = new Dictionary<int, DiscMesh>();
 	private readonly IDictionary<Hole3D, DiscMesh> _holeDiscMeshLookup = new Dictionary<Hole3D, DiscMesh>();
+	private int _holeCount = 0;
 
 	private float HoleSize => HoleManager3D.Instance.HoleSizeRadians;
 
@@ -26,34 +18,102 @@ public class FloorManager3D : Manager<FloorManager3D>
 
 	private void Start()
 	{
-		_floorNoHoles = Instantiate(_discPrefab);
-		_floorNoHoles.ArcLength = 2.0F * Mathf.PI - 0.00001F;
+		DiscMesh[] discMeshesToClear = GetComponentsInChildren<DiscMesh>();
+
+		for(int i = 0; i < discMeshesToClear.Length; i++)
+		{
+			Destroy(discMeshesToClear[i].gameObject);
+		}
+
+		Restart(); //TODO: When the game manager exists, get rid of this call. The game manager should be in charge of this.
 	}
 
 	private void Update()
 	{
-		if(Input.GetKeyDown(KeyCode.Space))
+		UpdateHoles();
+	}
+
+	public void Restart()
+	{
+		for(int i = 0; i < _floorsNoHoles.Count; i++)
 		{
-			if(_floorNoHoles != null)
+			Destroy(_floorsNoHoles[i].gameObject);
+		}
+
+		_floorsNoHoles.Clear();
+
+		for(int i = 0; i < _holesOnFloorLookup.Keys.Count; i++)
+		{
+			for(int j = 0; j < _holesOnFloorLookup[i].Count; j++)
 			{
-				Destroy(_floorNoHoles.gameObject);
+				Destroy(_holesOnFloorLookup[i][j].gameObject);
 			}
-			
+		}
+
+		_holesOnFloorLookup.Clear();
+		_holeCount = 0;
+
+		for(int i = 0; i < 8; i++)
+		{
+			DiscMesh floorNoHoles = Instantiate(_discPrefab);
+			floorNoHoles.ArcLength = 2.0F * Mathf.PI - 0.00001F;
+			floorNoHoles.transform.SetParent(transform, worldPositionStays: false);
+			WarpManager3D.Instance.PlaceObjectOnFloor(floorNoHoles.gameObject, i);
+			_floorsNoHoles.Add(i, floorNoHoles);
+		}
+
+		_holeDiscMeshLookup.Clear();
+
+		for(int i = 0; i < 8; i++)
+		{
+			SpawnHole();
+		}
+
+		//SpawnHole();
+	}
+
+	public void SpawnHole()
+	{
+		if(_holeCount < 8)
+		{
+			int floorNumber = Random.Range(0, 8);
+
+			if(_floorsNoHoles.TryGetValue(floorNumber, out DiscMesh floorNoHole))
+			{
+				Destroy(floorNoHole.gameObject);
+			}
+
 			Hole3D hole = Instantiate(_holePrefab);
+			hole.FloorNumber = floorNumber;
 			hole.StartRotationRadians = Random.Range(0.0F, 2.0F * Mathf.PI);
 			hole.transform.SetParent(transform, worldPositionStays: false);
 			hole.MoveDirection = Random.Range(0.0F, 1.0F) <= 0.5F ? MoveAIDirection.LeftUp : MoveAIDirection.RightDown;
-			_holes.Add(hole);
-			_holeDiscMeshLookup.Add(hole, Instantiate(_discPrefab));
+			DiscMesh newFloorMesh = Instantiate(_discPrefab);
+			WarpManager3D.Instance.PlaceObjectOnFloor(newFloorMesh.gameObject, floorNumber);
+
+			if(!_holesOnFloorLookup.ContainsKey(floorNumber))
+			{
+				_holesOnFloorLookup.Add(floorNumber, new List<Hole3D>());
+			}
+
+			_holesOnFloorLookup[floorNumber].Add(hole);
+			_holeDiscMeshLookup.Add(hole, newFloorMesh);
+			_holeCount++;
 		}
+	}
 
-		_holes = _holes.OrderBy(h => h.CurrentRotation).ToList();
-
-		for(int i = 0; i < _holes.Count; i++)
+	private void UpdateHoles()
+	{
+		foreach(int floorNumber in _holesOnFloorLookup.Keys)
 		{
-			Hole3D hole1 = _holes[i];
-			Hole3D hole2 = _holes.Count > 1 ? _holes[(i + 1) % _holes.Count] : null;
-			SetHoleSize(hole1, hole2, _holeDiscMeshLookup[hole1]);
+			List<Hole3D> holes = _holesOnFloorLookup[floorNumber].OrderBy(h => h.CurrentRotation).ToList();
+
+			for(int i = 0; i < holes.Count; i++)
+			{
+				Hole3D hole1 = holes[i];
+				Hole3D hole2 = holes.Count > 1 ? holes[(i + 1) % holes.Count] : null;
+				SetHoleSize(hole1, hole2, _holeDiscMeshLookup[hole1]);
+			}
 		}
 	}
 

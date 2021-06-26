@@ -570,6 +570,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f496348615689c4f9931c560e647cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _isTransparent: 1
 --- !u!65 &1903083203492789363
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -597,7 +598,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 122
   m_CollisionDetection: 0
 --- !u!1 &6431850921566507851
 GameObject:

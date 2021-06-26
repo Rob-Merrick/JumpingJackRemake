@@ -6,7 +6,6 @@ public class WarpManager3D : Manager<WarpManager3D>
 
     public void PlaceObjectOnFloor(GameObject gameObject, int floorNumber)
 	{
-        WarpManager.ValidateFloor(gameObject, floorNumber);
         gameObject.transform.position = new Vector3(gameObject.transform.position.x, floorNumber * _floorDelta, gameObject.transform.position.z);
 	}
 }

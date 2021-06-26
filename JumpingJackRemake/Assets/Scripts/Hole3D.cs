@@ -5,7 +5,7 @@ public class Hole3D : MonoBehaviour
     [SerializeField] private float _startRotationRadians = 0.0F;
     [SerializeField] private MoveAIDirection _moveDirection = MoveAIDirection.LeftUp;
     
-    public int FloorNumber { get; private set; } = 1;
+    public int FloorNumber { get; set; }
     public float CurrentRotation { get; private set; }
     public float StartRotationRadians { get => _startRotationRadians; set => _startRotationRadians = value; }
     public MoveAIDirection MoveDirection { get => _moveDirection; set => _moveDirection = value; }

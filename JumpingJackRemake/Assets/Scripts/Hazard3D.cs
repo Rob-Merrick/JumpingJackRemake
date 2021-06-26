@@ -2,11 +2,15 @@ using UnityEngine;
 
 public class Hazard3D : MonoBehaviour
 {
+	[SerializeField] private bool _isTransparent;
 	private GameObject _parent;
 	private float _rotationTotal;
+	private SkinnedMeshRenderer _renderer;
 
 	private void Start()
 	{
+		_renderer = GetComponentInChildren<SkinnedMeshRenderer>();
+		_renderer.material = HazardManager3D.Instance.GetRandomMaterial(_isTransparent);
 		float y = gameObject.transform.position.y;
 		_parent = new GameObject($"{gameObject.name}Container");
 		_parent.transform.SetParent(HazardManager3D.Instance.gameObject.transform, worldPositionStays: false);
