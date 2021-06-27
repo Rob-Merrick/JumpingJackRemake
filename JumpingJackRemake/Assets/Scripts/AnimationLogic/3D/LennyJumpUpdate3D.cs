@@ -32,10 +32,10 @@ public class LennyJumpUpdate3D : StateMachineBehaviour
 				_upwardAcceleration = Mathf.Lerp(100.0F, 400.0F, stateInfo.normalizedTime / (19.0F / 65.0F));
 			}
 		}
-		//else if(_lennyManager.IsHeadCollided)
-		//{
-		//	_lennyManager.Animator.SetOnlyTrigger("SmashHead");
-		//}
+		else if(_lennyManager.IsHeadCollided)
+		{
+			_lennyManager.Animator.SetOnlyTrigger("SmashHead");
+		}
 		else
 		{
 			_upwardMovement += _upwardAcceleration * Time.deltaTime;

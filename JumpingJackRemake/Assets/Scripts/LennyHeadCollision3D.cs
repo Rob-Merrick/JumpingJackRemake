@@ -1,20 +1,23 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class LennyHeadCollision3D : MonoBehaviour
 {
-	private void OnTriggerEnter(Collider other)
+	private readonly List<Collider> _collisions = new List<Collider>();
+
+	public bool IsHeadCollidedWithCeiling => _collisions.Count > 0;
+
+	private void LateUpdate()
 	{
-		if(other.GetComponent<DiscMesh>() != null)
-		{
-			LennyManager3D.Instance.IsHeadCollided = true;
-		}
+		LennyManager3D.Instance.IsHeadCollided = IsHeadCollidedWithCeiling;
+		_collisions.Clear();
 	}
 
-	private void OnTriggerExit(Collider other)
+	private void OnTriggerStay(Collider other)
 	{
 		if(other.GetComponent<DiscMesh>() != null)
 		{
-			LennyManager3D.Instance.IsHeadCollided = false;
+			_collisions.Add(other);
 		}
 	}
 }
