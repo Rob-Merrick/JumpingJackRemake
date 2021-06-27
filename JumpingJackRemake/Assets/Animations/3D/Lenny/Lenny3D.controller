@@ -500,9 +500,9 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.6730537
-  m_TransitionOffset: 0
-  m_ExitTime: 0.03849493
+  m_TransitionDuration: 0.096220575
+  m_TransitionOffset: 0.029604908
+  m_ExitTime: 0.22992763
   m_HasExitTime: 1
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
@@ -581,7 +581,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: SmashHead
-  m_Speed: 0.25
+  m_Speed: 2
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -2452546850307022945}
@@ -1293,9 +1293,9 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.6979614
+  m_TransitionDuration: 0.07585594
   m_TransitionOffset: 0
-  m_ExitTime: 0.344994
+  m_ExitTime: 0.34499407
   m_HasExitTime: 0
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
@@ -1357,9 +1357,9 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.25
-  m_TransitionOffset: 0
-  m_ExitTime: 0.9444444
+  m_TransitionDuration: 0.13818073
+  m_TransitionOffset: 0.3359876
+  m_ExitTime: 0.96929324
   m_HasExitTime: 0
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
