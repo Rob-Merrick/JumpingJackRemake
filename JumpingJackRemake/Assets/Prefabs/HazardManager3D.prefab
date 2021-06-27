@@ -1,0 +1,64 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6457300724460453122
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6457300724460453148}
+  - component: {fileID: 6457300724460453123}
+  m_Layer: 0
+  m_Name: HazardManager3D
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6457300724460453148
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6457300724460453122}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6457300724460453123
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6457300724460453122}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a2fbfdb14abbdb49ab81500aa280c17, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _carPrefab: {fileID: -8882977010028496583, guid: f01abc6a1c934bc40955422481bc04d1, type: 3}
+  _dinoPrefab: {fileID: 5142346607701081043, guid: d41fbf6439b472d4891862899ed12a7a, type: 3}
+  _ghostPrefab: {fileID: 5053374688385831896, guid: eec434cc507ce4c428dda6a4ea27d690, type: 3}
+  _hatchetPrefab: {fileID: -2922445882202260732, guid: 97479145aaa5dd341bbbf5243200bdcb, type: 3}
+  _jetPrefab: {fileID: 936236688202262049, guid: 7f5cea5eb72e2cf4ebd57ce41f0b195b, type: 3}
+  _snakePrefab: {fileID: -5525592316661828154, guid: f2f1a5a3258f89943a24c7887005a83a, type: 3}
+  _runSpeed: 30
+  _redColor: {fileID: 2100000, guid: 708a96dbfa5d9964c801ce6cd7591b92, type: 2}
+  _pinkColor: {fileID: 2100000, guid: d4483a34d47fbf745a568b42b7d57e58, type: 2}
+  _yellowColor: {fileID: 2100000, guid: 9d5ba490325779d4dba78f7272ba9710, type: 2}
+  _greenColor: {fileID: 2100000, guid: b7b8e4e925076194388ce80aee6dfecb, type: 2}
+  _blueColor: {fileID: 2100000, guid: ef4c8f3af5078544980842238460913f, type: 2}
+  _blackColor: {fileID: 2100000, guid: b424f1e59d74a8e4e90ac913f5183776, type: 2}
+  _redColorTransparent: {fileID: 2100000, guid: c4cad8c23e3b86a43b9f25862948bee7, type: 2}
+  _pinkColorTransparent: {fileID: 2100000, guid: b66220b18cd1900428cee23ba6647d4e, type: 2}
+  _yellowColorTransparent: {fileID: 2100000, guid: dd3b063ce42070142913f5c0f6bae94c, type: 2}
+  _greenColorTransparent: {fileID: 2100000, guid: 387880b87df2cb340b96bbd4ba5b5d65, type: 2}
+  _blueColorTransparent: {fileID: 2100000, guid: 9158f88602a78f24888b09f916dd3c07, type: 2}
+  _blackColorTransparent: {fileID: 2100000, guid: 9d5a2300444f49c409fd3db7e62f2d41, type: 2}
