@@ -20,6 +20,8 @@ public class LennyManager3D : Manager<LennyManager3D>
     public bool JumpBeginVerticalAscent { get; set; }
     public bool JumpApex { get; set; }
     public bool JumpEndVerticalDescent { get; set; }
+    public bool IsHeadCollided { get; set; }
+    public bool IsSmashingHead { get; set; }
 
     private void Start()
     {
@@ -34,20 +36,20 @@ public class LennyManager3D : Manager<LennyManager3D>
 	{
 		if(!_isInitiallyGrounded)
 		{
-			CharacterController.Move(1.0F * Time.deltaTime * Vector3.down);
+			CharacterController.Move(5.0F * Time.deltaTime * Vector3.down);
 			_isInitiallyGrounded = CharacterController.isGrounded;
 		}
 
 		if(CharacterController.isGrounded)
 		{
-			_gravity = 1.0F;
+			_gravity = 5.0F;
 		}
 		else
 		{
 			_gravity += GravityAcceleration * Time.deltaTime;
 		}
 
-        if(!IsJumping)
+        if(!IsJumping && !IsSmashingHead)
 		{
 		    CharacterController.Move(_gravity * Time.deltaTime * Vector3.down);
 		}
