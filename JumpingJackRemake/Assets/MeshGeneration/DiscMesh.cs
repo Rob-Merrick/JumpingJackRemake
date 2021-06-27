@@ -20,7 +20,6 @@ public class DiscMesh : MonoBehaviour
 	private int[] _triangles;
 	private MeshFilter _meshFilter;
 	private MeshCollider _meshCollider;
-
 	private float _actualArcLength;
 
 	public float ArcLength
@@ -54,30 +53,33 @@ public class DiscMesh : MonoBehaviour
 			_meshCollider = gameObject.GetComponent<MeshCollider>();
 		}
 
+		Mesh mesh;
+
 		if(Application.isPlaying)
 		{
-			_meshFilter.mesh = new Mesh()
+			if(_meshFilter.mesh == null)
 			{
-				vertices = GenerateVertices(),
-				triangles = GenerateTriangles()
-			};
+				_meshFilter.mesh = new Mesh();
+			}
 
-			_meshFilter.mesh.RecalculateNormals();
-			_meshFilter.mesh.RecalculateBounds();
-			_meshCollider.sharedMesh = _meshFilter.mesh;
+			mesh = _meshFilter.mesh;
 		}
 		else
 		{
-			_meshFilter.sharedMesh = new Mesh()
+			if(_meshFilter.sharedMesh == null)
 			{
-				vertices = GenerateVertices(),
-				triangles = GenerateTriangles()
-			};
+				_meshFilter.sharedMesh = new Mesh();
+			}
 
-			_meshFilter.sharedMesh.RecalculateNormals();
-			_meshFilter.sharedMesh.RecalculateBounds();
-			_meshCollider.sharedMesh = _meshFilter.sharedMesh;
+			mesh = _meshFilter.sharedMesh;
 		}
+
+		mesh.Clear();
+		mesh.vertices = GenerateVertices();
+		mesh.triangles = GenerateTriangles();
+		mesh.RecalculateNormals();
+		mesh.RecalculateBounds();
+		_meshCollider.sharedMesh = mesh;
 	}
 
 	private Vector3[] GenerateVertices()

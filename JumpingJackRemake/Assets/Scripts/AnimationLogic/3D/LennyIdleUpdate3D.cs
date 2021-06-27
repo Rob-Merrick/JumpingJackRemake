@@ -26,9 +26,4 @@ public class LennyIdleUpdate3D : StateMachineBehaviour
 			_lennyManager.Animator.SetOnlyTrigger("Jumping");
 		}
 	}
-
-	public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-	{
-
-	}
 }
