@@ -43,6 +43,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d89c2c90a7798714f8b0adb022413c1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _holeSizeRadians: 0.5
+  _holeSizeRadians: 0.4
   _rotationalSpeedRadians: 0.3
   _growShrinkTime: 2

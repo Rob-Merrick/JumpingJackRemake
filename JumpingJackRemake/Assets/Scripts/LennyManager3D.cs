@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class LennyManager3D : Manager<LennyManager3D>
@@ -9,7 +7,6 @@ public class LennyManager3D : Manager<LennyManager3D>
 
     private float _gravity;
     private float _positionalTheta = 0.0F;
-    private bool _isInitiallyGrounded;
 
     public float GravityAcceleration => 30.0F;
     public float RunSpeed => _runSpeed;
@@ -22,24 +19,18 @@ public class LennyManager3D : Manager<LennyManager3D>
     public bool JumpEndVerticalDescent { get; set; }
     public bool IsHeadCollided { get; set; }
     public bool IsSmashingHead { get; set; }
+    public bool IsHit { get; set; }
 
     private void Start()
     {
         Animator = GetComponentInChildren<Animator>();
         WarpManager3D.Instance.PlaceObjectOnFloor(_lenny.gameObject, 0, 1.0F);
         _positionalTheta = 0.0F;
-        _isInitiallyGrounded = false;
         IsJumping = false;
     }
 
 	private void Update()
 	{
-		if(!_isInitiallyGrounded)
-		{
-			CharacterController.Move(5.0F * Time.deltaTime * Vector3.down);
-			_isInitiallyGrounded = CharacterController.isGrounded;
-		}
-
 		if(CharacterController.isGrounded)
 		{
 			_gravity = 5.0F;
