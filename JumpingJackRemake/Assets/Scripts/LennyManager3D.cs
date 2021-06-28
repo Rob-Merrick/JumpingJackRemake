@@ -43,10 +43,32 @@ public class LennyManager3D : Manager<LennyManager3D>
 		    CharacterController.Move(_gravity * Time.deltaTime * Vector3.down);
 		}
 
-        if(GameManager3D.Instance.IsReady && _lenny.gameObject.transform.position.y < -50)
+        if(Input.GetKeyDown(KeyCode.KeypadPlus))
+        {
+            CharacterController.enabled = false;
+            WarpManager3D.Instance.PlaceObjectOnFloor(_lenny.gameObject, WarpManager3D.Instance.GetNearestFloor(_lenny.gameObject) + 1);
+            CharacterController.enabled = true;
+        }
+
+        if(GameManager3D.Instance.IsReady)
 		{
-            _isLifeLost = true;
-            GameManager3D.Instance.LoseLife();
+            if(_lenny.gameObject.transform.position.y < -50)
+		    {
+                _isLifeLost = true;
+                GameManager3D.Instance.LoseLife();
+		    }
+            
+            if(_lenny.gameObject.transform.position.y >= WarpManager3D.Instance.GetFloorHeight(7) - 1.0F && CharacterController.isGrounded)
+			{
+                GameManager3D.Instance.WinLevel();
+                Animator.SetOnlyTrigger("Cheering");
+			}
+
+            if(Input.GetKeyDown(KeyCode.W))
+			{
+                GameManager3D.Instance.WinLevel();
+                Animator.SetOnlyTrigger("Cheering");
+            }
 		}
 	}
 

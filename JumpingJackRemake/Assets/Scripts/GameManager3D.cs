@@ -17,6 +17,12 @@ public class GameManager3D : Manager<GameManager3D>
 		ScreenManager3D.Instance.FadeToColor(Color.black, callback: LoseLifeFadedToBlack);
 	}
 
+	public void WinLevel()
+	{
+		IsReady = false;
+		this.DoAfter(seconds: 5.0F, () => ScreenManager3D.Instance.FadeToColor(Color.white, callback: WinLevelFadedToWhite));
+	}
+
 	private void Restart()
 	{
 		SpawnManager3D.Instance.Restart();
@@ -28,11 +34,17 @@ public class GameManager3D : Manager<GameManager3D>
 	private void LoseLifeFadedToBlack()
 	{
 		Restart();
-		this.DoAfter(seconds: 3.0F, () => ScreenManager3D.Instance.FadeFromColor(Color.black, callback: LoseLifeFadedFromBlack));
+		this.DoAfter(seconds: 3.0F, () => ScreenManager3D.Instance.FadeFromColor(Color.black, callback: PrepareForCountdown));
 	}
 
-	private void LoseLifeFadedFromBlack()
+	private void PrepareForCountdown()
 	{
 		this.DoAfter(seconds: 1.0F, () => ScreenManager3D.Instance.StartCountdown(() => IsReady = true));
+	}
+
+	private void WinLevelFadedToWhite()
+	{
+		Restart();
+		this.DoAfter(seconds: 3.0F, () => ScreenManager3D.Instance.FadeFromColor(Color.white, callback: PrepareForCountdown));
 	}
 }
