@@ -4,6 +4,7 @@ public class Hazard3D : MonoBehaviour
 {
 	[SerializeField] private bool _isTransparent;
 
+	private float _rotationVariance;
 	private float _rotationTotal;
 	private GameObject _parent;
 	private SkinnedMeshRenderer _renderer;
@@ -17,14 +18,15 @@ public class Hazard3D : MonoBehaviour
 		_parent.transform.position = Vector3.zero;
 		gameObject.transform.SetParent(_parent.transform, worldPositionStays: false);
 		gameObject.transform.position = FloorManager3D.Instance.FloorRadius * Vector3.left;
-		(int floorNumber, float floorRotation) = SpawnManager3D.Instance.PickRandomFloorAndRotation(WarpManager3D.Instance.GetNearestFloor(gameObject));
+		(int floorNumber, float floorRotation) = SpawnManager3D.Instance.PickRandomFloorAndRotation();
 		WarpManager3D.Instance.PlaceObjectOnFloor(_parent, floorNumber);
 		_rotationTotal = floorRotation * Mathf.Rad2Deg;
+		_rotationVariance = Random.Range(-0.1F, 0.1F);
 	}
 
 	private void Update()
     {
-		_rotationTotal += HazardManager3D.Instance.RunSpeed * Time.deltaTime;
+		_rotationTotal += HazardManager3D.Instance.RunSpeed * Time.deltaTime + _rotationVariance * Time.deltaTime;
 		_parent.transform.rotation = Quaternion.Euler(_rotationTotal * Vector3.up);
 
 		if(transform.position.y < -50.0F)

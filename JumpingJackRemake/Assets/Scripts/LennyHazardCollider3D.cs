@@ -9,7 +9,7 @@ public class LennyHazardCollider3D : MonoBehaviour
 	{
 		Hazard3D hazard = other.gameObject.GetComponent<Hazard3D>();
 
-		if(hazard != null && !LennyManager3D.Instance.IsHit)
+		if(GameManager3D.Instance.IsReady && hazard != null && !LennyManager3D.Instance.IsHit)
 		{
 			float distanceToFront = Vector3.Distance(hazard.gameObject.transform.position, _front.transform.position);
 			float distanceToBack = Vector3.Distance(hazard.gameObject.transform.position, _back.transform.position);

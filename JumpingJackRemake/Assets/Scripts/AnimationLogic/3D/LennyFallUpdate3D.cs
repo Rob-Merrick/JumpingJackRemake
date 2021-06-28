@@ -11,7 +11,7 @@ public class LennyFallUpdate3D : StateMachineBehaviour
 
 	public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 	{
-		if(_lennyManager.CharacterController.isGrounded)
+		if(GameManager3D.Instance.IsReady && _lennyManager.CharacterController.isGrounded)
 		{
 			_lennyManager.Animator.SetOnlyTrigger("FallHitGround");
 		}

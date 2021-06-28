@@ -12,15 +12,15 @@ public class SpawnManager3D : Manager<SpawnManager3D>
 		RebuildRandomPositions();
 	}
 
-	public (int floorNumber, Vector3 floorPosition) PickRandomFloorAndPosition(float verticalOffset = 0.0F)
+	public (int floorNumber, Vector3 floorPosition) PickRandomFloorAndPosition(float verticalOffset = 0.0F, bool includeFloor0 = false)
 	{
-		(int floorNumber, (Vector3 floorPosition, float floorRotation) spot) = PickRandomFloorAndSpot(verticalOffset);
+		(int floorNumber, (Vector3 floorPosition, float floorRotation) spot) = PickRandomFloorAndSpot(verticalOffset, includeFloor0);
 		return (floorNumber, spot.floorPosition);
 	}
 
-	public (int floorNumber, float floorPosition) PickRandomFloorAndRotation(float verticalOffset = 0.0F)
+	public (int floorNumber, float floorPosition) PickRandomFloorAndRotation(bool includeFloor0 = false)
 	{
-		(int floorNumber, (Vector3 floorPosition, float floorRotation) spot) = PickRandomFloorAndSpot(verticalOffset);
+		(int floorNumber, (Vector3 floorPosition, float floorRotation) spot) = PickRandomFloorAndSpot(verticalOffset: 0.0F, includeFloor0);
 		return (floorNumber, spot.floorRotation);
 	}
 
@@ -44,9 +44,14 @@ public class SpawnManager3D : Manager<SpawnManager3D>
 		throw new System.Exception($"Cannot get a random spot on floor {floorNumber} because there are no available spots left for that floor. Make sure to call Restart() between levels");
 	}
 
-	private (int floorNumber, (Vector3 floorPosition, float floorRotation)) PickRandomFloorAndSpot(float verticalOffset = 0.0F)
+	private (int floorNumber, (Vector3 floorPosition, float floorRotation)) PickRandomFloorAndSpot(float verticalOffset, bool includeFloor0 = false)
 	{
 		List<int> availableFloors = new List<int>() { 0, 1, 2, 3, 4, 5, 6, 7 };
+
+		if(!includeFloor0)
+		{
+			availableFloors.RemoveAt(0);
+		}
 
 		while(availableFloors.Count > 0)
 		{
@@ -91,10 +96,23 @@ public class SpawnManager3D : Manager<SpawnManager3D>
 			_floorRotationalPositionLookup.Add(floorNumber, new List<(Vector3 position, float rotation)>());
 			float floorHeight = WarpManager3D.Instance.GetFloorHeight(floorNumber);
 
-			for(float rotationSubdivision = 0.0F; rotationSubdivision < _floorRotationDivisions; rotationSubdivision += _floorRotationDelta)
+			if(floorNumber == 0)
 			{
-				Vector3 floorPosition = new Vector3(FloorManager3D.Instance.FloorRadius * Mathf.Cos(rotationSubdivision), floorHeight, FloorManager3D.Instance.FloorRadius * Mathf.Sin(rotationSubdivision));
-				_floorRotationalPositionLookup[floorNumber].Add((floorPosition, rotationSubdivision));
+				for(float rotationSubdivision = 0.0F; rotationSubdivision < 3.0F; rotationSubdivision++)
+				{
+					float rotationValue = rotationSubdivision * 2.0F * Mathf.PI / 3.0F;
+					Vector3 floorPosition = new Vector3(FloorManager3D.Instance.FloorRadius * Mathf.Cos(rotationValue), floorHeight, FloorManager3D.Instance.FloorRadius * Mathf.Sin(rotationValue));
+					_floorRotationalPositionLookup[floorNumber].Add((floorPosition, rotationValue));
+				}
+			}
+			else
+			{
+				for(float rotationSubdivision = 0.0F; rotationSubdivision < _floorRotationDivisions; rotationSubdivision++)
+				{
+					float rotationValue = rotationSubdivision * 2.0F * Mathf.PI / _floorRotationDivisions;
+					Vector3 floorPosition = new Vector3(FloorManager3D.Instance.FloorRadius * Mathf.Cos(rotationValue), floorHeight, FloorManager3D.Instance.FloorRadius * Mathf.Sin(rotationValue));
+					_floorRotationalPositionLookup[floorNumber].Add((floorPosition, rotationValue));
+				}
 			}
 		}
 	}

@@ -7,6 +7,7 @@ public class LennyManager3D : Manager<LennyManager3D>
 
     private float _gravity;
     private float _positionalTheta = 0.0F;
+    private bool _isLifeLost = false;
 
     public float GravityAcceleration => 30.0F;
     public float RunSpeed => _runSpeed;
@@ -30,7 +31,7 @@ public class LennyManager3D : Manager<LennyManager3D>
 	{
 		if(CharacterController.isGrounded)
 		{
-			_gravity = 5.0F;
+			_gravity = 1.0F;
 		}
 		else
 		{
@@ -41,12 +42,21 @@ public class LennyManager3D : Manager<LennyManager3D>
 		{
 		    CharacterController.Move(_gravity * Time.deltaTime * Vector3.down);
 		}
+
+        if(GameManager3D.Instance.IsReady && _lenny.gameObject.transform.position.y < -50)
+		{
+            _isLifeLost = true;
+            GameManager3D.Instance.LoseLife();
+		}
 	}
 
     public void Restart()
 	{
-        _lenny.gameObject.transform.position = SpawnManager3D.Instance.PickRandomFloorPosition(floorNumber: 0, verticalOffset: 1.0F);
-        _positionalTheta = 0.0F;
+        if(CharacterController != null)
+		{
+            CharacterController.enabled = false;
+		}
+
         IsJumping = false;
         JumpBeginVerticalAscent = false;
         JumpApex = false;
@@ -54,12 +64,23 @@ public class LennyManager3D : Manager<LennyManager3D>
         IsHeadCollided = false;
         IsSmashingHead = false;
         IsHit = false;
+        Animator.SetOnlyTrigger(_isLifeLost ? "LoseLevelRestart" : "Idle");
+        _gravity = 0.0F;
+        _isLifeLost = false;
+        _lenny.transform.position = new Vector3(0.0F, 1.0F, 0.0F);
+        _positionalTheta = SpawnManager3D.Instance.PickRandomFloorRotation(floorNumber: 0);
+        ApplyUserMovement();
+
+        if(CharacterController != null)
+        {
+            CharacterController.enabled = true;
+        }
     }
 
 	public void ApplyUserMovement()
 	{
-        float horizontalAxis = Input.GetAxis("Horizontal");
-        Vector3 positionToCenter = Vector3.zero - Lenny.transform.position;
+        float horizontalAxis = GameManager3D.Instance.IsReady ? Input.GetAxis("Horizontal") : 0.0F;
+        Vector3 positionToCenter = Vector3.zero - _lenny.transform.position;
         Vector3 forwardTangent = Vector3.Cross(Vector3.up, positionToCenter);
 
         if(horizontalAxis < 0.0)
@@ -67,11 +88,11 @@ public class LennyManager3D : Manager<LennyManager3D>
             forwardTangent *= -1.0F;
         }
 
-        Lenny.transform.LookAt(Lenny.transform.position + forwardTangent);
+        _lenny.transform.LookAt(_lenny.transform.position + forwardTangent);
         _positionalTheta += horizontalAxis * RunSpeed * Time.deltaTime;
         _positionalTheta = Mathf.Repeat(_positionalTheta, 2.0F * Mathf.PI);
         float cos = FloorManager3D.Instance.FloorRadius * Mathf.Cos(_positionalTheta);
         float sin = FloorManager3D.Instance.FloorRadius * Mathf.Sin(_positionalTheta);
-        Lenny.transform.position = new Vector3(cos, Lenny.transform.position.y, sin);
+        _lenny.transform.position = new Vector3(cos, _lenny.transform.position.y, sin);
     }
 }

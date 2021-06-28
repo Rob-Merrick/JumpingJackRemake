@@ -6,20 +6,15 @@ public class GameManager3D : Manager<GameManager3D>
 {
 	public bool IsReady { get; private set; } = false;
 
-	private bool _tempIsRestarted = false;
-
-	private void Update()
+	private void Start()
 	{
-		if(!_tempIsRestarted)
-		{
-			Restart();
-			_tempIsRestarted = true;
-		}
+		ScreenManager3D.Instance.FadeToColor(Color.black, timeToFade: 0.0F, callback: LoseLifeFadedToBlack);
+	}
 
-		if(Input.GetKeyDown(KeyCode.Space))
-		{
-			IsReady = true;
-		}
+	public void LoseLife()
+	{
+		IsReady = false;
+		ScreenManager3D.Instance.FadeToColor(Color.black, callback: LoseLifeFadedToBlack);
 	}
 
 	private void Restart()
@@ -28,5 +23,16 @@ public class GameManager3D : Manager<GameManager3D>
 		FloorManager3D.Instance.Restart();
 		HazardManager3D.Instance.Restart();
 		LennyManager3D.Instance.Restart();
+	}
+
+	private void LoseLifeFadedToBlack()
+	{
+		Restart();
+		this.DoAfter(seconds: 3.0F, () => ScreenManager3D.Instance.FadeFromColor(Color.black, callback: LoseLifeFadedFromBlack));
+	}
+
+	private void LoseLifeFadedFromBlack()
+	{
+		this.DoAfter(seconds: 1.0F, () => ScreenManager3D.Instance.StartCountdown(() => IsReady = true));
 	}
 }
