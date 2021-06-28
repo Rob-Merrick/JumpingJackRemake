@@ -74,7 +74,7 @@ public class LennyManager3D : Manager<LennyManager3D>
         Animator.SetOnlyTrigger(_isLifeLost ? "LoseLevelRestart" : "Idle");
         _gravity = 0.0F;
         _isLifeLost = false;
-        _lenny.transform.position = new Vector3(0.0F, 5.0F, 0.0F);
+        _lenny.transform.position = new Vector3(0.0F, 2.0F, 0.0F);
         _positionalTheta = SpawnManager3D.Instance.PickRandomFloorRotation(floorNumber: 0);
         ApplyUserMovement();
 
