@@ -14,9 +14,14 @@ public static class MonoBehaviourExtensions
 		monoBehaviour.StartCoroutine(TimedCoroutine(seconds, callback));
 	}
 
-	public static void DoAfter(this MonoBehaviour monoBehaviour, Func<bool> finishedCondition, Action callback)
+	public static void DoAfter(this MonoBehaviour monoBehaviour, Func<bool> triggerCondition, Action callback)
 	{
-		monoBehaviour.StartCoroutine(FinishedConditionCoroutine(finishedCondition, callback));
+		monoBehaviour.StartCoroutine(TriggeredResponseCoroutine(triggerCondition, callback));
+	}
+
+	public static void DoWhile(this MonoBehaviour monoBehaviour, Func<bool> continueCondition, Action loopAction)
+	{
+		monoBehaviour.StartCoroutine(WhileConditionCoroutine(continueCondition, loopAction));
 	}
 
 	private static IEnumerator FrameDelayedCoroutine(int frames, Action callback)
@@ -35,9 +40,18 @@ public static class MonoBehaviourExtensions
 		callback.Invoke();
 	}
 
-	private static IEnumerator FinishedConditionCoroutine(Func<bool> finishedCondition, Action callback)
+	private static IEnumerator TriggeredResponseCoroutine(Func<bool> triggerCondition, Action callback)
 	{
-		yield return new WaitUntil(() => finishedCondition.Invoke());
+		yield return new WaitUntil(() => triggerCondition.Invoke());
 		callback.Invoke();
+	}
+
+	private static IEnumerator WhileConditionCoroutine(Func<bool> continueCondition, Action loopAction)
+	{
+		while(continueCondition.Invoke())
+		{
+			loopAction.Invoke();
+			yield return null;
+		}
 	}
 }

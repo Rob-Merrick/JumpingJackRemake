@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,6 +8,20 @@ public class ScreenManager3D : Manager<ScreenManager3D>
 {
 	[SerializeField] private Image _screenFadeImage;
 	[SerializeField] private GameObject _countdownContainer;
+	[SerializeField] private TextMeshProUGUI _gameOverText;
+	[SerializeField] private LoseLifeScreen3D _lostLifeScreen;
+
+	public void DisplayGameOver(Action callback = null)
+	{
+		_gameOverText.gameObject.SetActive(true);
+		_gameOverText.color = new Color(_gameOverText.color.r, _gameOverText.color.g, _gameOverText.color.b, 1.0F);
+		this.DoAfter(seconds: 5.0F, () => StartCoroutine(FadeGameOverScreen(callback)));
+	}
+
+	public void ShowLostLife()
+	{
+		_lostLifeScreen.Display();
+	}
 
 	public void StartCountdown(Action callback)
 	{
@@ -21,6 +36,24 @@ public class ScreenManager3D : Manager<ScreenManager3D>
 	public void FadeFromColor(Color color, float timeToFade = 2.0F, Action callback = null)
 	{
 		StartCoroutine(FadeFromColorCoroutine(color, timeToFade, callback));
+	}
+
+	private IEnumerator FadeGameOverScreen(Action callback)
+	{
+		_gameOverText.color = new Color(_gameOverText.color.r, _gameOverText.color.g, _gameOverText.color.b, 1.0F);
+		float timeTaken = 0.0F;
+
+		while(Application.isPlaying && timeTaken < 10.0F)
+		{
+			_gameOverText.color = new Color(_gameOverText.color.r, _gameOverText.color.g, _gameOverText.color.b, Mathf.Lerp(1.0F, 0.0F, timeTaken / 10.0F));
+			timeTaken += Time.deltaTime;
+			yield return null;
+		}
+
+		_gameOverText.color = new Color(_gameOverText.color.r, _gameOverText.color.g, _gameOverText.color.b, 0.0F);
+		_gameOverText.gameObject.SetActive(false);
+
+		this.DoAfter(seconds: 5.0F, () => callback?.Invoke());
 	}
 
 	private IEnumerator StartCountdownCoroutine(Action callback)

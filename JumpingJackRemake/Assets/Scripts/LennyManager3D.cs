@@ -21,6 +21,7 @@ public class LennyManager3D : Manager<LennyManager3D>
     public bool IsHeadCollided { get; set; }
     public bool IsSmashingHead { get; set; }
     public bool IsHit { get; set; }
+    public int Lives { get; private set; } = 6;
 
     private void Start()
     {
@@ -43,32 +44,19 @@ public class LennyManager3D : Manager<LennyManager3D>
 		    CharacterController.Move(_gravity * Time.deltaTime * Vector3.down);
 		}
 
-        if(Input.GetKeyDown(KeyCode.KeypadPlus))
-        {
-            CharacterController.enabled = false;
-            WarpManager3D.Instance.PlaceObjectOnFloor(_lenny.gameObject, WarpManager3D.Instance.GetNearestFloor(_lenny.gameObject) + 1);
-            CharacterController.enabled = true;
-        }
-
         if(GameManager3D.Instance.IsReady)
 		{
+            UpdateDebuggingMethods();
+
             if(_lenny.gameObject.transform.position.y < -50)
 		    {
-                _isLifeLost = true;
-                GameManager3D.Instance.LoseLife();
+                LoseLife();
 		    }
             
             if(_lenny.gameObject.transform.position.y >= WarpManager3D.Instance.GetFloorHeight(7) - 1.0F && CharacterController.isGrounded)
 			{
-                GameManager3D.Instance.WinLevel();
-                Animator.SetOnlyTrigger("Cheering");
+                WinLevel();
 			}
-
-            if(Input.GetKeyDown(KeyCode.W))
-			{
-                GameManager3D.Instance.WinLevel();
-                Animator.SetOnlyTrigger("Cheering");
-            }
 		}
 	}
 
@@ -99,6 +87,11 @@ public class LennyManager3D : Manager<LennyManager3D>
         }
     }
 
+    public void ResetLives()
+	{
+        Lives = 6;
+	}
+
 	public void ApplyUserMovement()
 	{
         float horizontalAxis = GameManager3D.Instance.IsReady ? Input.GetAxis("Horizontal") : 0.0F;
@@ -116,5 +109,71 @@ public class LennyManager3D : Manager<LennyManager3D>
         float cos = FloorManager3D.Instance.FloorRadius * Mathf.Cos(_positionalTheta);
         float sin = FloorManager3D.Instance.FloorRadius * Mathf.Sin(_positionalTheta);
         _lenny.transform.position = new Vector3(cos, _lenny.transform.position.y, sin);
+    }
+
+    private void LoseLife()
+	{
+        Lives--;
+        _isLifeLost = true;
+
+        if(Lives <= 0)
+		{
+            Lives = 0;
+            GameManager3D.Instance.LoseGame();
+		}
+        else
+		{
+            GameManager3D.Instance.LoseLife();
+		}
+    }
+
+    private void WinLevel()
+	{
+        GameManager3D.Instance.WinLevel();
+        Animator.SetOnlyTrigger("Cheering");
+    }
+
+    //Debugging Methods
+    private void UpdateDebuggingMethods()
+	{
+        if(Input.GetKeyDown(KeyCode.L))
+		{
+            WarpLenny(new Vector3(_lenny.transform.position.x, -8.0F, _lenny.transform.position.z));
+		}
+
+        if(Input.GetKeyDown(KeyCode.G))
+		{
+            Lives = 1;
+            WarpLenny(new Vector3(_lenny.transform.position.x, -8.0F, _lenny.transform.position.z));
+        }
+
+        if(Input.GetKeyDown(KeyCode.W))
+        {
+            WinLevel();
+        }
+
+        if(Input.GetKeyDown(KeyCode.Equals) || Input.GetKeyDown(KeyCode.KeypadPlus))
+        {
+            WarpFloors(isUp: true);
+        }
+
+        if(Input.GetKeyDown(KeyCode.Minus) || Input.GetKeyDown(KeyCode.KeypadMinus))
+        {
+            WarpFloors(isUp: false);
+        }
+    }
+
+    private void WarpLenny(Vector3 newPosition)
+	{
+        CharacterController.enabled = false;
+        _lenny.gameObject.transform.position = newPosition;
+        CharacterController.enabled = true;
+    }
+
+    private void WarpFloors(bool isUp)
+	{
+        CharacterController.enabled = false;
+        WarpManager3D.Instance.PlaceObjectOnFloor(_lenny.gameObject, WarpManager3D.Instance.GetNearestFloor(_lenny.gameObject) + (isUp ? 1 : -1));
+        CharacterController.enabled = true;
     }
 }

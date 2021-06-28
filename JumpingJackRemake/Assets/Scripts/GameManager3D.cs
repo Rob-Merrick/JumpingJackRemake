@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager3D : Manager<GameManager3D>
@@ -8,13 +6,19 @@ public class GameManager3D : Manager<GameManager3D>
 
 	private void Start()
 	{
-		ScreenManager3D.Instance.FadeToColor(Color.black, timeToFade: 0.0F, callback: LoseLifeFadedToBlack);
+		ScreenManager3D.Instance.FadeToColor(Color.black, timeToFade: 0.0F, callback: LevelFirstRun);
 	}
 
 	public void LoseLife()
 	{
 		IsReady = false;
 		ScreenManager3D.Instance.FadeToColor(Color.black, callback: LoseLifeFadedToBlack);
+	}
+
+	public void LoseGame()
+	{
+		IsReady = false;
+		ScreenManager3D.Instance.FadeToColor(Color.black, timeToFade: 5.0F, callback: LoseGameFadedToBlack);
 	}
 
 	public void WinLevel()
@@ -31,20 +35,34 @@ public class GameManager3D : Manager<GameManager3D>
 		LennyManager3D.Instance.Restart();
 	}
 
+	private void LevelFirstRun()
+	{
+		Restart();
+		this.DoAfter(seconds: 3.0F, () => ScreenManager3D.Instance.FadeFromColor(Color.black, callback: PrepareForCountdown)); //TODO: Add in the cutscene above this line
+	}
+
 	private void LoseLifeFadedToBlack()
 	{
 		Restart();
+		ScreenManager3D.Instance.ShowLostLife();
 		this.DoAfter(seconds: 3.0F, () => ScreenManager3D.Instance.FadeFromColor(Color.black, callback: PrepareForCountdown));
 	}
 
-	private void PrepareForCountdown()
+	private void LoseGameFadedToBlack()
 	{
-		this.DoAfter(seconds: 1.0F, () => ScreenManager3D.Instance.StartCountdown(() => IsReady = true));
+		Restart();
+		LennyManager3D.Instance.ResetLives();
+		this.DoAfter(seconds: 5.0F, () => ScreenManager3D.Instance.DisplayGameOver(() => ScreenManager3D.Instance.FadeFromColor(Color.black, callback: PrepareForCountdown)));
 	}
 
 	private void WinLevelFadedToWhite()
 	{
 		Restart();
 		this.DoAfter(seconds: 3.0F, () => ScreenManager3D.Instance.FadeFromColor(Color.white, callback: PrepareForCountdown));
+	}
+
+	private void PrepareForCountdown()
+	{
+		this.DoAfter(seconds: 1.0F, () => ScreenManager3D.Instance.StartCountdown(() => IsReady = true));
 	}
 }
