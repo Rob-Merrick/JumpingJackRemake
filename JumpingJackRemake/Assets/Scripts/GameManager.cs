@@ -14,10 +14,7 @@ public class GameManager : Manager<GameManager>
 	private bool _isMainScreenVisible = false;
 	private bool _isGameOverScreenVisible = false;
 	private bool _isMainMenuLoaded = false;
-	private int _konamiCodeIndex = 0;
-	private float _konamiCodeTimer = 0.0F;
 	private ScreenInfo[] _screens;
-	private readonly KeyCode[] _konamiCode = { KeyCode.UpArrow, KeyCode.UpArrow, KeyCode.DownArrow, KeyCode.DownArrow, KeyCode.LeftArrow, KeyCode.RightArrow, KeyCode.LeftArrow, KeyCode.RightArrow };
 	private readonly IDictionary<TextScroller, bool> _textScrollerInitiallyEnabledLookup = new Dictionary<TextScroller, bool>();
 	private readonly IDictionary<ExtraLifeUI, bool> _extraLifeInitiallyEnabledLookup = new Dictionary<ExtraLifeUI, bool>();
 
@@ -43,7 +40,7 @@ public class GameManager : Manager<GameManager>
 
 		CheckForPauseMenu();
 
-		if(!_pauseWindow.activeSelf && !CheckForKonamiCode() && (_isGameOverScreenVisible || _isMainScreenVisible) && Input.GetKeyDown(KeyCode.Return))
+		if(!_pauseWindow.activeSelf && (!_isMainScreenVisible || !KonamiCodeChecker.Instance.CheckForKonamiCode()) && (_isGameOverScreenVisible || _isMainScreenVisible) && Input.GetKeyDown(KeyCode.Return))
 		{
 			if(_isGameOverScreenVisible)
 			{
@@ -207,80 +204,6 @@ public class GameManager : Manager<GameManager>
 		}
 	}
 
-	private bool CheckForKonamiCode()
-	{
-		if(!_isMainScreenVisible || LennyManager.Instance.IsKonamiCodeEnabled)
-		{
-			return false;
-		}
-
-		KeyCode? keyHit = GetKeyHit();
-
-		if(_konamiCodeWindow.activeSelf)
-		{
-			if(Input.GetKeyDown(KeyCode.Return))
-			{
-				LennyManager.Instance.IsKonamiCodeEnabled = true;
-				_konamiCodeWindow.SetActive(false);
-				Time.timeScale = 1.0F;
-				return true;
-			}
-		}
-		else if(keyHit.HasValue)
-		{
-			if(keyHit.Value == _konamiCode[_konamiCodeIndex])
-			{
-				AudioSource idleSound = SoundManager.Instance.GetAudioSourceByName("Idle2");
-				idleSound.Play();
-				_konamiCodeIndex++;
-				_konamiCodeTimer = 0.0F;
-
-				if(_konamiCodeIndex >= _konamiCode.Length)
-				{
-					AudioSource konamiCodeActivatedSound = SoundManager.Instance.GetAudioSourceByName("WinLevel");
-					konamiCodeActivatedSound.Play();
-					Time.timeScale = 0.0F;
-					_konamiCodeWindow.SetActive(true);
-				}
-			}
-			else
-			{
-				KonamiCodeFailure();
-			}
-		}
-		else if(_konamiCodeIndex > 0 && _konamiCodeTimer >= 2.0F)
-		{
-			KonamiCodeFailure();
-		}
-		else
-		{
-			_konamiCodeTimer += Time.deltaTime;
-		}
-
-		return false;
-	}
-
-	private void KonamiCodeFailure()
-	{
-		AudioSource idleSound = SoundManager.Instance.GetAudioSourceByName("Idle1");
-		idleSound.Play();
-		_konamiCodeTimer = 0.0F;
-		_konamiCodeIndex = 0;
-	}
-
-	private KeyCode? GetKeyHit()
-	{
-		foreach(KeyCode keyCode in Enum.GetValues(typeof(KeyCode)))
-		{
-			if(Input.GetKeyDown(keyCode))
-			{
-				return keyCode;
-			}
-		}
-
-		return null;
-	}
-
 	private void CheckForPauseMenu()
 	{
 		if(Input.GetKeyDown(KeyCode.Escape))
@@ -293,6 +216,7 @@ public class GameManager : Manager<GameManager>
 		{
 			if(Input.GetKeyDown(KeyCode.M))
 			{
+				Time.timeScale = 1.0F;
 				SceneManager.LoadScene("Menu");
 			}
 		}

@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/ReimaginedMode.unity
     guid: 06eadff1d4c4caf4f8312e26762e9746
+  - enabled: 1
+    path: Assets/Scenes/ReimaginedModeMenu.unity
+    guid: ccd32a1c07dd55d42a94cf9098217d75
   m_configObjects: {}

@@ -71,8 +71,7 @@ public class HazardManager3D : Manager<HazardManager3D>
 
 		_hazards.Clear();
 
-		//TODO: The number of spawned of hazards should match the current level number
-		for(int i = 0; i < _hazardPrefabs.Length; i++)
+		for(int i = 0; i < GameManager3D.Instance.Level - 1; i++)
 		{
 			Hazard3D hazard = Instantiate(_hazardPrefabs[i % _hazardPrefabs.Length]);
 			_hazards.Add(hazard);
@@ -103,7 +102,7 @@ public class HazardManager3D : Manager<HazardManager3D>
 		}
 	}
 
-	private void SetAnimationPlayingState(bool isPlaying)
+	public void SetAnimationPlayingState(bool isPlaying)
 	{
 		float animationSpeed = isPlaying ? 1.0F : 0.0F;
 

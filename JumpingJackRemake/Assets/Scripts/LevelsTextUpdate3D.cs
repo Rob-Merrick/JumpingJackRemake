@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
 
-public class LivesTextUpdate3D : MonoBehaviour
+public class LevelsTextUpdate3D : MonoBehaviour
 {
     private TextMeshProUGUI _livesText;
 
@@ -12,6 +12,6 @@ public class LivesTextUpdate3D : MonoBehaviour
 
     private void Update()
     {
-        _livesText.text = $"x{LennyManager3D.Instance.Lives}";
+        _livesText.text = $"={GameManager3D.Instance.Level}";
     }
 }

@@ -16,7 +16,6 @@ public class LennyManager : Manager<LennyManager>
     public bool JumpInitialized { get; set; } = false;
     public bool JumpIsGood { get; set; } = false;
     public bool HitHead { get; set; } = false;
-    public bool IsKonamiCodeEnabled { get; set; } = false;
     public int RemainingLives { get; private set; } = 6;
     public int ActiveHoles { get; private set; } = 0;
     public int FloorNumber { get; private set; } = 0;
@@ -145,7 +144,7 @@ public class LennyManager : Manager<LennyManager>
     //Debugging methods
     private void UpdateTestingShortcuts()
 	{
-        if(!IsKonamiCodeEnabled)
+        if(!KonamiCodeChecker.Instance.IsKonamiCodeEnabled)
 		{
             return;
 		}

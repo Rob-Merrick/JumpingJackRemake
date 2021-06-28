@@ -10,10 +10,12 @@ public class ScreenManager3D : Manager<ScreenManager3D>
 	[SerializeField] private GameObject _countdownContainer;
 	[SerializeField] private TextMeshProUGUI _gameOverText;
 	[SerializeField] private LoseLifeScreen3D _lostLifeScreen;
+	[SerializeField] private GainLevelScreen3D _gainLevelScreen;
 
-	public void DisplayGameOver(Action callback = null)
+	public void DisplayGameOver(int lastLevel, int highestLevel, Action callback = null)
 	{
 		_gameOverText.gameObject.SetActive(true);
+		_gameOverText.text = $"GAME OVER{Environment.NewLine}{Environment.NewLine}LAST LEVEL - {lastLevel}{Environment.NewLine}HIGH LEVEL - {highestLevel}";
 		_gameOverText.color = new Color(_gameOverText.color.r, _gameOverText.color.g, _gameOverText.color.b, 1.0F);
 		this.DoAfter(seconds: 5.0F, () => StartCoroutine(FadeGameOverScreen(callback)));
 	}
@@ -21,6 +23,11 @@ public class ScreenManager3D : Manager<ScreenManager3D>
 	public void ShowLostLife()
 	{
 		_lostLifeScreen.Display();
+	}
+
+	public void ShowGainedLevel()
+	{
+		_gainLevelScreen.Display();
 	}
 
 	public void StartCountdown(Action callback)

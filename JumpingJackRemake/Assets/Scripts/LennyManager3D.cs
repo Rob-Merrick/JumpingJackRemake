@@ -3,6 +3,7 @@ using UnityEngine;
 public class LennyManager3D : Manager<LennyManager3D>
 {
     [SerializeField] private Lenny3D _lenny;
+    [SerializeField] private Animator _animator;
     [SerializeField] [Range(0.0F, 100.0F)] private float _runSpeed = 5.0F;
 
     private float _gravity;
@@ -12,8 +13,8 @@ public class LennyManager3D : Manager<LennyManager3D>
     public float GravityAcceleration => 30.0F;
     public float RunSpeed => _runSpeed;
     public Lenny3D Lenny => _lenny;
+    public Animator Animator => _animator;
     public CharacterController CharacterController => _lenny.CharacterController;
-    public Animator Animator { get; private set; }
     public bool IsJumping { get; set; }
     public bool JumpBeginVerticalAscent { get; set; }
     public bool JumpApex { get; set; }
@@ -22,11 +23,6 @@ public class LennyManager3D : Manager<LennyManager3D>
     public bool IsSmashingHead { get; set; }
     public bool IsHit { get; set; }
     public int Lives { get; private set; } = 6;
-
-    private void Start()
-    {
-        Animator = GetComponentInChildren<Animator>();
-    }
 
 	private void Update()
 	{
@@ -87,6 +83,16 @@ public class LennyManager3D : Manager<LennyManager3D>
         }
     }
 
+    public void DecreaseLife()
+	{
+        Lives--;
+
+        if(Lives <= 0)
+		{
+            Lives = 0;
+		}
+	}
+
     public void ResetLives()
 	{
         Lives = 6;
@@ -113,12 +119,10 @@ public class LennyManager3D : Manager<LennyManager3D>
 
     private void LoseLife()
 	{
-        Lives--;
         _isLifeLost = true;
 
-        if(Lives <= 0)
+        if(Lives - 1 <= 0)
 		{
-            Lives = 0;
             GameManager3D.Instance.LoseGame();
 		}
         else
@@ -130,12 +134,17 @@ public class LennyManager3D : Manager<LennyManager3D>
     private void WinLevel()
 	{
         GameManager3D.Instance.WinLevel();
-        Animator.SetOnlyTrigger("Cheering");
+        this.DoAfter(seconds: 1.0F, () => Animator.SetOnlyTrigger("Cheering"));
     }
 
     //Debugging Methods
     private void UpdateDebuggingMethods()
 	{
+        if(KonamiCodeChecker.Instance == null || !KonamiCodeChecker.Instance.IsKonamiCodeEnabled)
+		{
+            return;
+		}
+
         if(Input.GetKeyDown(KeyCode.L))
 		{
             WarpLenny(new Vector3(_lenny.transform.position.x, -8.0F, _lenny.transform.position.z));

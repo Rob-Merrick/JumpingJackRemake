@@ -43,7 +43,11 @@ public class FloorManager3D : Manager<FloorManager3D>
 		for(int i = 0; i < 8; i++)
 		{
 			SpawnHole(i);
-			SpawnHole(i);
+
+			if(i < GameManager3D.Instance.Level - 1)
+			{
+				SpawnHole(i);
+			}
 		}
 	}
 
