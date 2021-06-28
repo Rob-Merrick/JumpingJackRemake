@@ -144,7 +144,7 @@ public class LennyManager : Manager<LennyManager>
     //Debugging methods
     private void UpdateTestingShortcuts()
 	{
-        if(!KonamiCodeChecker.Instance.IsKonamiCodeEnabled)
+        if(!KonamiCodeChecker.IsKonamiCodeEnabled)
 		{
             return;
 		}

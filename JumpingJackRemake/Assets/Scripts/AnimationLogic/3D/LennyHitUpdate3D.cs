@@ -10,6 +10,7 @@ public class LennyHitUpdate3D : StateMachineBehaviour
 	{
 		_lennyManager = LennyManager3D.Instance;
 		_lennyManager.IsHit = true;
+		SoundManager3D.Instance.PlaySound(Random.Range(0.0F, 1.0F) < 0.5F ? "Hurt1" : "Hurt2");
 	}
 
 	public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

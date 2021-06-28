@@ -19,6 +19,7 @@ public class LennyJumpUpdate3D : StateMachineBehaviour
 		_upwardAcceleration = 0.0F;
 		_startingHeight = _lennyManager.Lenny.transform.position.y;
 		_isHoldingJumpButton = Input.GetButton("Jump");
+		SoundManager3D.Instance.PlaySound(Random.Range(0.0F, 1.0F) < 0.3333F ? "Jump1" : Random.Range(0.0F, 1.0F) < 0.5F ? "Jump2" : "Jump3");
 	}
 
 	public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

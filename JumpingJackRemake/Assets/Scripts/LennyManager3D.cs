@@ -4,6 +4,7 @@ public class LennyManager3D : Manager<LennyManager3D>
 {
     [SerializeField] private Lenny3D _lenny;
     [SerializeField] private Animator _animator;
+    [SerializeField] private AudioSource _audioSource;
     [SerializeField] [Range(0.0F, 100.0F)] private float _runSpeed = 5.0F;
 
     private float _gravity;
@@ -73,7 +74,7 @@ public class LennyManager3D : Manager<LennyManager3D>
         Animator.SetOnlyTrigger(_isLifeLost ? "LoseLevelRestart" : "Idle");
         _gravity = 0.0F;
         _isLifeLost = false;
-        _lenny.transform.position = new Vector3(0.0F, 1.0F, 0.0F);
+        _lenny.transform.position = new Vector3(0.0F, 5.0F, 0.0F);
         _positionalTheta = SpawnManager3D.Instance.PickRandomFloorRotation(floorNumber: 0);
         ApplyUserMovement();
 
@@ -120,6 +121,7 @@ public class LennyManager3D : Manager<LennyManager3D>
     private void LoseLife()
 	{
         _isLifeLost = true;
+        SoundManager3D.Instance.PlaySoundWithAudioSource($"Scream{Random.Range(1, 5)}", _audioSource);
 
         if(Lives - 1 <= 0)
 		{
@@ -133,6 +135,7 @@ public class LennyManager3D : Manager<LennyManager3D>
 
     private void WinLevel()
 	{
+        this.DoAfter(seconds: 1.0F, () => SoundManager3D.Instance.PlaySound("Hooray"));
         GameManager3D.Instance.WinLevel();
         this.DoAfter(seconds: 1.0F, () => Animator.SetOnlyTrigger("Cheering"));
     }
@@ -140,10 +143,10 @@ public class LennyManager3D : Manager<LennyManager3D>
     //Debugging Methods
     private void UpdateDebuggingMethods()
 	{
-        if(KonamiCodeChecker.Instance == null || !KonamiCodeChecker.Instance.IsKonamiCodeEnabled)
-		{
-            return;
-		}
+  //      if(KonamiCodeChecker.Instance == null || !KonamiCodeChecker.IsKonamiCodeEnabled)
+		//{
+  //          return;
+		//}
 
         if(Input.GetKeyDown(KeyCode.L))
 		{

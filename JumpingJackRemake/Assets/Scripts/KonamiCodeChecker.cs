@@ -14,7 +14,7 @@ public class KonamiCodeChecker : Manager<KonamiCodeChecker>
     private int _konamiCodeIndex = 0;
     private float _konamiCodeTimer = 0.0F;
 
-	public bool IsKonamiCodeEnabled { get; private set; } = false;
+	public static bool IsKonamiCodeEnabled { get; private set; } = false;
 
 	public bool CheckForKonamiCode()
 	{

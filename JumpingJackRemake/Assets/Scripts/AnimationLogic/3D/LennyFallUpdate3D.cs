@@ -13,6 +13,7 @@ public class LennyFallUpdate3D : StateMachineBehaviour
 	{
 		if(GameManager3D.Instance.IsReady && _lennyManager.CharacterController.isGrounded)
 		{
+			SoundManager3D.Instance.PlaySound("Slap");
 			_lennyManager.Animator.SetOnlyTrigger("FallHitGround");
 		}
 	}
