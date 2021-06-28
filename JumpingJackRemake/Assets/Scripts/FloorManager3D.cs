@@ -22,8 +22,6 @@ public class FloorManager3D : Manager<FloorManager3D>
 		{
 			Destroy(discMeshesToClear[i].gameObject);
 		}
-
-		Restart(); //TODO: When the game manager exists, get rid of this call. The game manager should be in charge of this.
 	}
 
 	private void Update()
@@ -47,57 +45,28 @@ public class FloorManager3D : Manager<FloorManager3D>
 			SpawnHole(i);
 			SpawnHole(i);
 		}
-
-		//SpawnHole();
-		//SpawnHole();
 	}
 
-	public void SpawnHole(int floorIndex, int? holeIndex = null)
+	public void SpawnHole(int floorIndex)
 	{
-		int actualHoleIndex = holeIndex ?? _holeCount;
-		int floorNumber = floorIndex;//Random.Range(0, 8);
-		_floorsNoHoles[floorNumber].gameObject.SetActive(false);
+		int actualHoleIndex = _holeCount;
+		_floorsNoHoles[floorIndex].gameObject.SetActive(false);
 		Hole3D hole = Instantiate(_holePrefab);
 		hole.HoleIndex = actualHoleIndex;
-		hole.name = $"Hole{actualHoleIndex}_Floor{floorNumber}";
-		hole.FloorNumber = floorNumber;
-		hole.StartRotationRadians = Random.Range(0.0F, 2.0F * Mathf.PI);
+		hole.name = $"Hole{actualHoleIndex}_Floor{floorIndex}";
+		hole.FloorNumber = floorIndex;
+		hole.StartRotationRadians = SpawnManager3D.Instance.PickRandomFloorRotation(floorIndex);
 		hole.transform.SetParent(transform, worldPositionStays: false);
 		hole.MoveDirection = Random.Range(0.0F, 1.0F) <= 0.5F ? MoveAIDirection.LeftUp : MoveAIDirection.RightDown;
 		hole.Initialize();
 		DiscMesh newFloorMesh = Instantiate(_discPrefab);
-		newFloorMesh.name = $"Disc{actualHoleIndex}_Floor{floorNumber}";
+		newFloorMesh.name = $"Disc{actualHoleIndex}_Floor{floorIndex}";
 		newFloorMesh.transform.SetParent(transform);
-		WarpManager3D.Instance.PlaceObjectOnFloor(newFloorMesh.gameObject, floorNumber);
-		_holesOnFloorLookup[floorNumber].Add(hole);
+		WarpManager3D.Instance.PlaceObjectOnFloor(newFloorMesh.gameObject, floorIndex);
+		_holesOnFloorLookup[floorIndex].Add(hole);
 		_holeDiscMeshLookup.Add(hole, newFloorMesh);
 		_holeCount++;
 	}
-
-	//public void WarpHole(Hole3D hole)
-	//{
-	//	DestroyHole(hole);
-	//	SpawnHole(hole.HoleIndex);
-	//	UpdateHoles();
-
-	//	foreach(int floorNumber in _holesOnFloorLookup.Keys)
-	//	{
-	//		foreach(Hole3D currentHole in _holesOnFloorLookup[floorNumber])
-	//		{
-	//			_holeDiscMeshLookup[currentHole].Redraw();
-	//		}
-	//	}
-	//}
-
-	//private void DestroyHole(Hole3D hole)
-	//{
-	//	Destroy(_holeDiscMeshLookup[hole].gameObject);
-	//	Destroy(hole.gameObject);
-	//	List<Hole3D> holesOnFloor = _holesOnFloorLookup[hole.FloorNumber];
-	//	holesOnFloor.Remove(hole);
-	//	_floorsNoHoles[hole.FloorNumber].gameObject.SetActive(holesOnFloor.Count == 0);
-	//	_holeCount--;
-	//}
 
 	private void UpdateHoles()
 	{

@@ -3,13 +3,13 @@ using UnityEngine;
 
 public class HazardManager3D : Manager<HazardManager3D>
 {
+    [SerializeField] private float _runSpeed = 30.0F;
     [SerializeField] private Hazard3D _carPrefab;
     [SerializeField] private Hazard3D _dinoPrefab;
     [SerializeField] private Hazard3D _ghostPrefab;
     [SerializeField] private Hazard3D _hatchetPrefab;
     [SerializeField] private Hazard3D _jetPrefab;
     [SerializeField] private Hazard3D _snakePrefab;
-    [SerializeField] private float _runSpeed = 30.0F;
 	[SerializeField] private Material _redColor;
 	[SerializeField] private Material _pinkColor;
 	[SerializeField] private Material _yellowColor;
@@ -23,6 +23,11 @@ public class HazardManager3D : Manager<HazardManager3D>
 	[SerializeField] private Material _blueColorTransparent;
 	[SerializeField] private Material _blackColorTransparent;
 
+	private readonly Hazard3D[] _hazardPrefabs = new Hazard3D[6];
+	private readonly List<Hazard3D> _hazards = new List<Hazard3D>();
+	private bool _isAnimationStarted;
+
+	public float RunSpeed => GameManager3D.Instance.IsReady ? _runSpeed : 0.0F;
 	public Material RedColor => _redColor;
 	public Material PinkColor => _pinkColor;
 	public Material YellowColor => _yellowColor;
@@ -36,29 +41,44 @@ public class HazardManager3D : Manager<HazardManager3D>
 	public Material BlueColorTransparent => _blueColorTransparent;
 	public Material BlackColorTransparent => _blackColorTransparent;
 
-	private readonly List<Hazard3D> _hazards = new List<Hazard3D>();
-
-	public float RunSpeed => _runSpeed;
-
 	private void Start()
 	{
-		Hazard3D car = Instantiate(_carPrefab);
-		Hazard3D dino = Instantiate(_dinoPrefab);
-		Hazard3D ghost = Instantiate(_ghostPrefab);
-		Hazard3D hatchet = Instantiate(_hatchetPrefab);
-		Hazard3D jet = Instantiate(_jetPrefab);
-		Hazard3D snake = Instantiate(_snakePrefab);
-		_hazards.Add(car);
-		_hazards.Add(dino);
-		_hazards.Add(ghost);
-		_hazards.Add(hatchet);
-		_hazards.Add(jet);
-		_hazards.Add(snake);
+		_hazardPrefabs[0] = _carPrefab;
+		_hazardPrefabs[1] = _dinoPrefab;
+		_hazardPrefabs[2] = _ghostPrefab;
+		_hazardPrefabs[3] = _hatchetPrefab;
+		_hazardPrefabs[4] = _jetPrefab;
+		_hazardPrefabs[5] = _snakePrefab;
+	}
 
+	private void Update()
+	{
+		if(!_isAnimationStarted && GameManager3D.Instance.IsReady)
+		{
+			SetAnimationPlayingState(isPlaying: true);
+			_isAnimationStarted = true;
+		}
+	}
+
+	public void Restart()
+	{
+		_isAnimationStarted = false;
+		
 		for(int i = 0; i < _hazards.Count; i++)
 		{
-			WarpManager3D.Instance.PlaceObjectOnFloor(_hazards[i].gameObject, Random.Range(1, 8));
+			Destroy(_hazards[i].gameObject);
 		}
+
+		_hazards.Clear();
+
+		//TODO: The number of spawned of hazards should match the current level number
+		for(int i = 0; i < _hazardPrefabs.Length; i++)
+		{
+			Hazard3D hazard = Instantiate(_hazardPrefabs[i % _hazardPrefabs.Length]);
+			_hazards.Add(hazard);
+		}
+
+		SetAnimationPlayingState(isPlaying: false);
 	}
 
 	public Material GetRandomMaterial(bool isTransparent)
@@ -80,6 +100,16 @@ public class HazardManager3D : Manager<HazardManager3D>
 			case 10: return _blueColorTransparent;
 			case 11: return _blackColorTransparent;
 			default: throw new System.NotImplementedException();
+		}
+	}
+
+	private void SetAnimationPlayingState(bool isPlaying)
+	{
+		float animationSpeed = isPlaying ? 1.0F : 0.0F;
+
+		foreach(Hazard3D hazard in _hazards)
+		{
+			hazard.GetComponent<Animator>().speed = animationSpeed;
 		}
 	}
 }

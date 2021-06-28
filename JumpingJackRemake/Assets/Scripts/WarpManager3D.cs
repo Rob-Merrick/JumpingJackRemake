@@ -3,8 +3,12 @@ using UnityEngine;
 public class WarpManager3D : Manager<WarpManager3D>
 {
     private readonly float _floorDelta = 7.0F;
-
 	private int FloorDeltaInt => Mathf.RoundToInt(_floorDelta);
+
+	public float GetFloorHeight(int floorNumber, float verticalOffset = 0.0F)
+	{
+		return floorNumber * _floorDelta + verticalOffset;
+	}
 
     public int GetNearestFloor(GameObject gameObject)
 	{
@@ -23,6 +27,6 @@ public class WarpManager3D : Manager<WarpManager3D>
 
 	public void PlaceObjectOnFloor(GameObject gameObject, int floorNumber, float verticalOffset = 0.0F)
 	{
-        gameObject.transform.position = new Vector3(gameObject.transform.position.x, floorNumber * _floorDelta + verticalOffset, gameObject.transform.position.z);
+        gameObject.transform.position = new Vector3(gameObject.transform.position.x, GetFloorHeight(floorNumber, verticalOffset), gameObject.transform.position.z);
 	}
 }

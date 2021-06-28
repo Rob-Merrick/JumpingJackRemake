@@ -11,7 +11,6 @@ public class LennyHazardCollider3D : MonoBehaviour
 
 		if(hazard != null && !LennyManager3D.Instance.IsHit)
 		{
-			Debug.Log("Hazard hit");
 			float distanceToFront = Vector3.Distance(hazard.gameObject.transform.position, _front.transform.position);
 			float distanceToBack = Vector3.Distance(hazard.gameObject.transform.position, _back.transform.position);
 			string trigger = distanceToFront < distanceToBack ? "HitFromFront" : "HitFromBack";

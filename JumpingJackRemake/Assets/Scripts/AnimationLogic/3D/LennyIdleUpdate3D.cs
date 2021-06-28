@@ -13,6 +13,11 @@ public class LennyIdleUpdate3D : StateMachineBehaviour
 
 	public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 	{
+		if(!GameManager3D.Instance.IsReady)
+		{
+			return;
+		}
+
 		if(!_lennyManager.CharacterController.isGrounded)
 		{
 			_lennyManager.Animator.SetOnlyTrigger("Falling");

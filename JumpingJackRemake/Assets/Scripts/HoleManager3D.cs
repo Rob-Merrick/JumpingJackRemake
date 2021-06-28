@@ -7,6 +7,6 @@ public class HoleManager3D : Manager<HoleManager3D>
 	[SerializeField] [Range(0.01F, 10.0F)] private float _growShrinkTime = 2.0F;
 
 	public float HoleSizeRadians => _holeSizeRadians;
-	public float RotationalSpeedRadians => _rotationalSpeedRadians;
+	public float RotationalSpeedRadians => GameManager3D.Instance.IsReady ? _rotationalSpeedRadians : 0.0F;
 	public float GrowShrinkTime => _growShrinkTime;
 }

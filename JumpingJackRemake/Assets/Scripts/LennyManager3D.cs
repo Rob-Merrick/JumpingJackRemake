@@ -24,9 +24,6 @@ public class LennyManager3D : Manager<LennyManager3D>
     private void Start()
     {
         Animator = GetComponentInChildren<Animator>();
-        WarpManager3D.Instance.PlaceObjectOnFloor(_lenny.gameObject, 0, 1.0F);
-        _positionalTheta = 0.0F;
-        IsJumping = false;
     }
 
 	private void Update()
@@ -45,6 +42,19 @@ public class LennyManager3D : Manager<LennyManager3D>
 		    CharacterController.Move(_gravity * Time.deltaTime * Vector3.down);
 		}
 	}
+
+    public void Restart()
+	{
+        _lenny.gameObject.transform.position = SpawnManager3D.Instance.PickRandomFloorPosition(floorNumber: 0, verticalOffset: 1.0F);
+        _positionalTheta = 0.0F;
+        IsJumping = false;
+        JumpBeginVerticalAscent = false;
+        JumpApex = false;
+        JumpEndVerticalDescent = false;
+        IsHeadCollided = false;
+        IsSmashingHead = false;
+        IsHit = false;
+    }
 
 	public void ApplyUserMovement()
 	{
