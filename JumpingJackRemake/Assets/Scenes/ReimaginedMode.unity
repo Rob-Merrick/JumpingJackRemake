@@ -3654,7 +3654,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Path: {fileID: 1959196437}
-  m_PathPosition: 7.961575
+  m_PathPosition: 0.00892528
   m_PositionUnits: 0
   m_PathOffset: {x: 0, y: 0, z: 0}
   m_XDamping: 0
@@ -3667,8 +3667,8 @@ MonoBehaviour:
   m_AutoDolly:
     m_Enabled: 1
     m_PositionOffset: 0
-    m_SearchRadius: 2
-    m_SearchResolution: 5
+    m_SearchRadius: 0
+    m_SearchResolution: 20
 --- !u!114 &1091955648
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -4045,7 +4045,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.7777778, y: 1}
+    m_SensorSize: {x: 1.3333334, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -4061,8 +4061,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1196152444}
-  m_LocalRotation: {x: 0.08591291, y: -0.6723279, z: 0.079018086, w: 0.73099273}
-  m_LocalPosition: {x: 34.980087, y: 3.0000002, z: -1.050503}
+  m_LocalRotation: {x: 0.081868224, y: -0.7090646, z: 0.083479084, w: 0.69538206}
+  m_LocalPosition: {x: 34.999397, y: 3.0000002, z: 0.24478641}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1091955646}
@@ -6577,8 +6577,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1937914093}
-  m_LocalRotation: {x: 0.08591291, y: -0.6723279, z: 0.079018086, w: 0.73099273}
-  m_LocalPosition: {x: 34.980087, y: 3.0000002, z: -1.050503}
+  m_LocalRotation: {x: 0.081868224, y: -0.7090646, z: 0.083479084, w: 0.69538206}
+  m_LocalPosition: {x: 34.999397, y: 3.0000002, z: 0.24478641}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -6647,11 +6647,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a200b19ca1a9685429ed7e043c28e904, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Resolution: 50
+  m_Resolution: 100
   m_Appearance:
     pathColor: {r: 0, g: 1, b: 0, a: 1}
     inactivePathColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-    width: 0.2
+    width: 0.64
   m_Looped: 1
   m_Waypoints:
   - position: {x: 35, y: 3, z: 0}
